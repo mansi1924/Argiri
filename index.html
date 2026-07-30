@@ -1,0 +1,2941 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Argiri — Marble, Made Personal</title>
+    <meta name="description"
+        content="Argiri sources, crafts, and offers marble in every form — from sculptural objects to full stone slabs — for those who choose to live with intention.">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400;1,9..144,500&family=Inter:wght@300;400;500;600&family=Space+Mono:wght@400;700&display=swap"
+        rel="stylesheet">
+
+    <style>
+        :root {
+            --stone-50: #e8e2d5;
+            --stone-100: #ded5c2;
+            --paper: #f2eee4;
+            --ink: #201c17;
+            --ink-soft: #4b453c;
+            --pine: #313f34;
+            --pine-dark: #1f2921;
+            --rose: #b1785f;
+            --rose-soft: #d9b7a2;
+            --vein: #9c8f7c;
+            --vein-soft: rgba(156, 143, 124, 0.35);
+            --gold: #b3872f;
+            --lapis: #35506e;
+            --onyx-glow: #e0a758;
+
+            --serif: "Fraunces", serif;
+            --sans: "Inter", sans-serif;
+            --mono: "Space Mono", monospace;
+
+            --maxw: 1180px;
+            --edge: clamp(1.5rem, 5vw, 5rem);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background: var(--stone-50);
+            color: var(--ink);
+            font-family: var(--sans);
+            font-weight: 400;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        ::selection {
+            background: var(--pine);
+            color: var(--paper);
+        }
+
+        a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        img {
+            max-width: 100%;
+            display: block;
+        }
+
+        .eyebrow {
+            font-family: var(--mono);
+            font-size: 0.68rem;
+            letter-spacing: 0.22em;
+            text-transform: uppercase;
+            color: var(--ink-soft);
+        }
+
+        .wrap {
+            max-width: var(--maxw);
+            margin: 0 auto;
+            padding-left: var(--edge);
+            padding-right: var(--edge);
+        }
+
+        /* ---------- reveal on scroll ---------- */
+        .reveal {
+            opacity: 0;
+            transform: translateY(24px);
+            transition: opacity 1s cubic-bezier(.2, .6, .2, 1), transform 1s cubic-bezier(.2, .6, .2, 1);
+        }
+
+        .reveal.in {
+            opacity: 1;
+            transform: none;
+        }
+
+        .vein-path {
+            stroke-dasharray: 900;
+            stroke-dashoffset: 900;
+            transition: stroke-dashoffset 2.4s cubic-bezier(.2, .6, .2, 1);
+        }
+
+        .vein-path.in {
+            stroke-dashoffset: 0;
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+
+            .reveal,
+            .vein-path {
+                transition: none !important;
+                opacity: 1 !important;
+                transform: none !important;
+                stroke-dashoffset: 0 !important;
+            }
+        }
+
+        /* ---------- header ---------- */
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 100;
+            padding: 1.6rem var(--edge);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            mix-blend-mode: normal;
+            transition: background .5s ease, padding .4s ease, box-shadow .4s ease;
+        }
+
+        header.scrolled {
+            background: rgba(232, 226, 213, 0.88);
+            backdrop-filter: blur(10px);
+            padding-top: 1.1rem;
+            padding-bottom: 1.1rem;
+            box-shadow: 0 1px 0 var(--vein-soft);
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            line-height: 0;
+        }
+
+        .logo img {
+            width: clamp(122px, 12vw, 158px);
+            aspect-ratio: 3.31 / 1;
+            height: auto;
+            object-fit: contain;
+            display: block;
+            filter: drop-shadow(0 1px 3px rgba(0, 0, 0, 0.28));
+            transition: width .35s ease;
+        }
+
+        header.scrolled .logo img {
+            width: clamp(100px, 9vw, 130px);
+        }
+
+        nav {
+            display: flex;
+            gap: clamp(1.2rem, 3vw, 2.6rem);
+            align-items: center;
+        }
+
+        nav a {
+            font-family: var(--mono);
+            font-size: 0.8rem;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            position: relative;
+            padding-bottom: 4px;
+            color: rgba(242, 238, 228, 0.92);
+            transition: color .4s ease;
+        }
+
+        header.scrolled nav a {
+            color: var(--ink);
+        }
+
+        nav a::after {
+            content: "";
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            height: 1px;
+            width: 0;
+            background: var(--rose);
+            transition: width .4s cubic-bezier(.2, .6, .2, 1);
+        }
+
+        nav a:hover::after {
+            width: 100%;
+        }
+
+        .nav-toggle {
+            display: none;
+        }
+
+        .nav-toggle span {
+            background: rgba(242, 238, 228, 0.92);
+            transition: background .4s ease;
+        }
+
+        header.scrolled .nav-toggle span {
+            background: var(--ink);
+        }
+
+        /* ---------- hero slider ---------- */
+        .hero {
+            position: relative;
+            height: 100svh;
+            overflow: hidden;
+            background: var(--ink);
+        }
+
+        .hero-slide {
+            position: absolute;
+            inset: 0;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 1.4s cubic-bezier(.2, .6, .2, 1);
+            z-index: 1;
+        }
+
+        .hero-slide.active {
+            opacity: 1;
+            visibility: visible;
+            z-index: 2;
+        }
+
+        .hero-slide-bg {
+            position: absolute;
+            inset: 0;
+            overflow: hidden;
+        }
+
+        /* .hero-slide-bg svg {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            transform: scale(1.06);
+            transition: transform 9s linear;
+        }
+
+        .hero-slide.active .hero-slide-bg svg {
+            transform: scale(1.16);
+        } */
+
+        .hero-slide-scrim {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(100deg, rgba(15, 13, 10, 0.72) 0%, rgba(15, 13, 10, 0.42) 38%, rgba(15, 13, 10, 0.08) 62%, rgba(15, 13, 10, 0) 78%);
+        }
+
+        .hero-slide-content {
+            position: relative;
+            z-index: 3;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 8rem var(--edge) 7rem;
+            max-width: 900px;
+        }
+
+        .hero-eyebrow {
+            margin-bottom: 1.6rem;
+            color: rgba(242, 238, 228, 0.75) !important;
+        }
+
+        .hero-slide-content h1 {
+            font-family: var(--serif);
+            font-weight: 400;
+            font-size: clamp(2.4rem, 6.6vw, 5.2rem);
+            line-height: 1.05;
+            letter-spacing: -0.01em;
+            color: var(--paper);
+            opacity: 0;
+            transform: translateY(18px);
+            transition: opacity 1s ease .3s, transform 1s cubic-bezier(.2, .6, .2, 1) .3s;
+        }
+
+        .hero-slide-content p.lede {
+            margin-top: 1.6rem;
+            max-width: 42ch;
+            font-size: 1.05rem;
+            color: rgba(242, 238, 228, 0.82);
+            opacity: 0;
+            transform: translateY(18px);
+            transition: opacity 1s ease .45s, transform 1s cubic-bezier(.2, .6, .2, 1) .45s;
+        }
+
+        .hero-slide.active .hero-slide-content h1,
+        .hero-slide.active .hero-slide-content p.lede {
+            opacity: 1;
+            transform: none;
+        }
+
+        .hero-slide-content h1 em {
+            font-style: italic;
+            font-weight: 400;
+            color: var(--rose-soft);
+        }
+
+        .hero-controls {
+            position: absolute;
+            left: 0;
+            right: 0;
+            bottom: 2.2rem;
+            z-index: 5;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 var(--edge);
+        }
+
+        /* .scroll-cue{
+    display:flex; align-items:center; gap: 0.8rem;
+    font-family: var(--mono); font-size: 0.64rem; letter-spacing: 0.16em; text-transform:uppercase;
+    color: rgba(242,238,228,0.7);
+  }
+  .scroll-cue .line{ width: 34px; height:1px; background: rgba(242,238,228,0.35); position:relative; overflow:hidden; }
+  .scroll-cue .line::after{
+    content:""; position:absolute; left:-100%; top:0; height:100%; width:100%;
+    background: var(--rose-soft);
+    animation: crawl 2.6s ease-in-out infinite;
+  }
+  @keyframes crawl{ 0%{left:-100%;} 50%{left:0;} 100%{left:100%;} } */
+
+        .hero-dots {
+            display: flex;
+            gap: 0.7rem;
+        }
+
+        .hero-dot {
+            width: 32px;
+            height: 2px;
+            background: rgba(242, 238, 228, 0.3);
+            position: relative;
+            overflow: hidden;
+            cursor: pointer;
+            border: none;
+            padding: 0;
+        }
+
+        .hero-dot::after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            transform-origin: left;
+            transform: scaleX(0);
+            background: var(--paper);
+        }
+
+        .hero-dot.active::after {
+            transform: scaleX(1);
+            transition: transform 7s linear;
+        }
+
+        .hero-arrows {
+            display: flex;
+            gap: 0.8rem;
+        }
+
+        .hero-arrow {
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            border: 1px solid rgba(242, 238, 228, 0.4);
+            background: transparent;
+            color: var(--paper);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: background .3s ease, border-color .3s ease;
+            font-family: var(--serif);
+            font-size: 1.1rem;
+        }
+
+        .hero-arrow:hover {
+            background: rgba(242, 238, 228, 0.14);
+            border-color: rgba(242, 238, 228, 0.7);
+        }
+
+        @media (max-width: 620px) {
+            .hero-dots {
+                display: none;
+            }
+
+            .hero-controls {
+                bottom: 1.6rem;
+            }
+        }
+
+        /* ---------- section rhythm ---------- */
+        section {
+            position: relative;
+            padding: 7rem 0;
+        }
+
+        /* .divider {
+            width: 100%;
+            height: 1px;
+            background: linear-gradient(to right, transparent, var(--vein-soft) 20%, var(--vein-soft) 80%, transparent);
+        } */
+
+        .kicker {
+            font-family: var(--mono);
+            font-size: 0.7rem;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: var(--rose);
+            margin-bottom: 1.4rem;
+            display: flex;
+            align-items: center;
+            gap: 0.7rem;
+        }
+
+        .kicker::before {
+            content: "";
+            width: 22px;
+            height: 1px;
+            background: var(--rose);
+            display: inline-block;
+        }
+
+        h2.section-title {
+            font-family: var(--serif);
+            font-weight: 400;
+            font-size: clamp(2rem, 4.2vw, 3.2rem);
+            line-height: 1.12;
+            max-width: 16ch;
+        }
+
+        /* ---------- vision ---------- */
+        .vision {
+            display: grid;
+            grid-template-columns: 1.1fr 1fr;
+            gap: 4rem;
+            position: relative;
+            z-index: 2;
+            align-items: start;
+        }
+
+        .vision-text {
+            font-size: 1.05rem;
+            color: var(--ink-soft);
+            max-width: 56ch;
+            position: relative;
+            z-index: 2;
+        }
+
+        .vision-text p+p {
+            margin-top: 1.3rem;
+            position: relative;
+            z-index: 2;
+        }
+
+        .vision-text strong {
+            color: var(--ink);
+            font-weight: 500;
+        }
+
+        .vision-pull {
+            font-family: var(--serif);
+            font-style: italic;
+            font-weight: 400;
+            font-size: clamp(1.5rem, 2.6vw, 2.1rem);
+            line-height: 1.35;
+            color: var(--pine);
+            align-self: center;
+            border-left: 1px solid var(--vein-soft);
+            padding-left: 2rem;
+            position: relative;
+            z-index: 2;
+        }
+
+        #vision {
+            position: relative;
+            /* overflow: hidden; */
+        }
+
+        .vision-images {
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+            z-index: 99;
+        }
+
+        .float-img {
+            position: absolute;
+            width: 170px;
+            height: 170px;
+            object-fit: cover;
+            border-radius: 18px;
+            filter: grayscale(20%);
+            transition: .5s;
+            animation: float 8s ease-in-out infinite;
+        }
+
+        /* Random positions */
+
+        .img1 {
+            top: -6%;
+            left: 4%;
+            transform: rotate(-12deg);
+        }
+
+        .img2 {
+            top: 10%;
+            right: 8%;
+            transform: rotate(10deg);
+        }
+
+        .img3 {
+            bottom: -12%;
+            left: 10%;
+            transform: rotate(8deg);
+        }
+
+        .img4 {
+            bottom: 5%;
+            right: 2%;
+            transform: rotate(-10deg);
+        }
+
+        @keyframes float {
+
+            0%,
+            100% {
+                transform: translateY(0) rotate(var(--rotate, 0deg));
+            }
+
+            50% {
+                transform: translateY(-15px) rotate(var(--rotate, 0deg));
+            }
+        }
+
+
+        /* ---------- mission band (inverted) ---------- */
+        .mission {
+            background: var(--pine);
+            color: var(--stone-50);
+            padding: 6rem 0;
+        }
+
+        .mission .kicker {
+            color: var(--rose-soft);
+        }
+
+        .mission .kicker::before {
+            background: var(--rose-soft);
+        }
+
+        .mission-inner {
+            max-width: 760px;
+        }
+
+        .mission h2 {
+            font-family: var(--serif);
+            font-weight: 400;
+            font-size: clamp(1.7rem, 3.4vw, 2.6rem);
+            line-height: 1.3;
+        }
+
+        .mission h2 em {
+            font-style: italic;
+            color: var(--rose-soft);
+        }
+
+        /* ---------- gallery showcase ---------- */
+        .gallery-showcase {
+            position: relative;
+            padding: 6rem 0 6.5rem;
+            background:
+                radial-gradient(circle at 18% 0%, rgba(177, 120, 95, 0.14), transparent 28%),
+                radial-gradient(circle at 82% 12%, rgba(32, 28, 23, 0.08), transparent 24%),
+                linear-gradient(180deg, #f6f0e5 0%, #efe6d7 100%);
+            overflow: hidden;
+        }
+
+        .gallery-showcase::before {
+            content: "";
+            position: absolute;
+            top: -10rem;
+            right: -8rem;
+            width: 28rem;
+            height: 28rem;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.55) 0%, rgba(255, 255, 255, 0) 70%);
+            pointer-events: none;
+        }
+
+        .gallery-head {
+            display: grid;
+            grid-template-columns: 1.1fr 0.9fr;
+            gap: 2rem;
+            align-items: end;
+        }
+
+        .gallery-head p {
+            max-width: 38ch;
+            color: var(--ink-soft);
+            line-height: 1.6;
+        }
+
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(12, minmax(0, 1fr));
+            grid-auto-rows: 160px;
+            gap: 1rem;
+            margin-top: 2.5rem;
+        }
+
+        .gallery-card {
+            position: relative;
+            border-radius: 24px;
+            overflow: hidden;
+            background: #ddd3c0;
+            box-shadow: 0 18px 50px rgba(32, 28, 23, 0.16);
+            isolation: isolate;
+        }
+
+        .gallery-card img {
+            width: 100%;
+            height: 100%;
+            display: block;
+            object-fit: cover;
+            transform: scale(1);
+            transition: transform .7s ease, filter .7s ease;
+        }
+
+        .gallery-card:hover img {
+            transform: scale(1.05);
+            filter: saturate(1.03);
+        }
+
+        .gallery-card::after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(180deg, rgba(24, 20, 16, 0) 30%, rgba(24, 20, 16, 0.7) 100%);
+            z-index: 0;
+        }
+
+        .gallery-card.feature {
+            grid-column: span 7;
+            grid-row: span 3;
+            min-height: 504px;
+        }
+
+        .gallery-card.tall {
+            grid-column: span 5;
+            min-height: 160px;
+        }
+
+        .gallery-card.small {
+            grid-column: span 4;
+            min-height: 160px;
+        }
+
+        .gallery-card-content {
+            position: absolute;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            z-index: 1;
+            padding: 1.15rem 1.15rem 1.05rem;
+            color: var(--paper);
+        }
+
+        .gallery-pill {
+            display: inline-flex;
+            align-items: center;
+            padding: 0.34rem 0.65rem;
+            border-radius: 999px;
+            background: rgba(255, 255, 255, 0.14);
+            border: 1px solid rgba(255, 255, 255, 0.18);
+            font-family: var(--mono);
+            font-size: 0.6rem;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            backdrop-filter: blur(8px);
+        }
+
+        .gallery-card-content h3 {
+            margin-top: 0.6rem;
+            font-family: var(--serif);
+            font-weight: 500;
+            line-height: 1.1;
+            font-size: clamp(1.25rem, 2vw, 1.7rem);
+        }
+
+        .gallery-card-content p {
+            margin-top: 0.4rem;
+            max-width: 28ch;
+            font-size: 0.92rem;
+            line-height: 1.45;
+            color: rgba(245, 239, 228, 0.84);
+        }
+
+        /* ---------- philosophy triptych ---------- */
+        #philosophy,
+        #collections {
+            background: var(--stone-100);
+        }
+
+        .principles {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 3rem;
+            margin-top: 3.5rem;
+        }
+
+        .principle {
+            border-top: 1px solid var(--vein-soft);
+            padding-top: 1.6rem;
+        }
+
+        .principle .num {
+            font-family: var(--mono);
+            font-size: 0.75rem;
+            color: var(--rose);
+            letter-spacing: 0.08em;
+        }
+
+        .principle h3 {
+            font-family: var(--serif);
+            font-weight: 500;
+            font-size: 1.4rem;
+            margin: 0.9rem 0 0.8rem;
+        }
+
+        .principle p {
+            color: var(--ink-soft);
+            font-size: 0.98rem;
+        }
+
+        /* ---------- feeling (duotone dark) ---------- */
+        .feeling {
+            background-image: url("./images/ChatGPT Image Jul 29, 2026, 07_29_46 PM.png");
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            width: 100%;
+            height: 100%;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .feeling-veins {
+            position: absolute;
+            inset: 0;
+            opacity: 0.5;
+        }
+
+        .feeling-inner {
+            position: relative;
+            z-index: 2;
+        }
+
+        .feeling .kicker {
+            color: var(--ink);
+        }
+
+        .feeling .kicker::before {
+            background: var(--ink);
+        }
+
+        .feeling blockquote {
+            font-family: var(--serif);
+            font-weight: 400;
+            font-style: italic;
+            font-size: clamp(1.7rem, 4vw, 3rem);
+            line-height: 1.28;
+            color: var(--ink);
+        }
+
+        .feeling .after {
+            margin-top: 2.4rem;
+            max-width: 56ch;
+            color: var(--ink);
+            opacity: 0.82;
+            font-size: 1.02rem;
+        }
+
+        .feeling .after p+p {
+            margin-top: 1rem;
+        }
+
+        /* ---------- stand for (alternating list) ---------- */
+        .stand-item {
+            display: grid;
+            grid-template-columns: 1fr 1.4fr;
+            gap: 3rem;
+            padding: 3rem 0;
+            align-items: start;
+        }
+
+        .stand-item:not(:last-child) {
+            border-bottom: 1px solid var(--vein-soft);
+        }
+
+        .stand-item:nth-child(even) {
+            direction: rtl;
+        }
+
+        .stand-item:nth-child(even)>* {
+            direction: ltr;
+        }
+
+        .stand-item h3 {
+            font-family: var(--serif);
+            font-weight: 400;
+            font-style: italic;
+            font-size: clamp(1.4rem, 2.6vw, 1.9rem);
+            color: var(--pine);
+        }
+
+        .stand-item p {
+            color: var(--ink-soft);
+        }
+
+        /* ---------- before it reaches you / process strip ---------- */
+        .strip {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1px;
+            background: var(--vein-soft);
+            margin-top: 4rem;
+            border: 1px solid var(--vein-soft);
+        }
+
+        .strip-cell {
+            background: var(--paper);
+            padding: 2.4rem 2rem;
+            min-height: 220px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .strip-cell .tag {
+            font-family: var(--mono);
+            font-size: 0.66rem;
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
+            color: var(--ink-soft);
+        }
+
+        .strip-cell h4 {
+            font-family: var(--serif);
+            font-size: 1.3rem;
+            font-weight: 500;
+            margin-top: 1.4rem;
+        }
+
+        /* ---------- collections ---------- */
+        .collections-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2.2rem;
+            margin-top: 3.5rem;
+        }
+
+        .collection-card {
+            background: var(--paper);
+            border: 1px solid var(--vein-soft);
+            display: flex;
+            flex-direction: column;
+            transition: transform .5s cubic-bezier(.2, .6, .2, 1), box-shadow .5s ease;
+        }
+
+        .collection-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 22px 40px -24px rgba(32, 28, 23, 0.35);
+        }
+
+        .swatch {
+            position: relative;
+            width: 100%;
+            aspect-ratio: 4/3;
+            overflow: hidden;
+        }
+
+        /* .swatch svg {
+            width: 100%;
+            height: 100%;
+            display: block;
+        } */
+
+        .swatch .swatch-label {
+            position: absolute;
+            bottom: 0.8rem;
+            left: 0.9rem;
+            font-family: var(--mono);
+            font-size: 0.62rem;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: rgba(255, 255, 255, 0.85);
+            background: rgba(32, 28, 23, 0.45);
+            padding: 0.3rem 0.6rem;
+        }
+
+        .collection-body {
+            padding: 1.8rem 1.8rem 2.2rem;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .collection-origin {
+            font-family: var(--mono);
+            font-size: 0.62rem;
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
+            color: var(--rose);
+        }
+
+        .collection-body h3 {
+            font-family: var(--serif);
+            font-weight: 500;
+            font-size: 1.6rem;
+            margin-top: 0.6rem;
+        }
+
+        .collection-body .meaning {
+            font-style: italic;
+            font-family: var(--serif);
+            color: var(--ink-soft);
+            font-size: 0.98rem;
+            margin-top: 0.3rem;
+        }
+
+        .collection-body p.desc {
+            margin-top: 1rem;
+            color: var(--ink-soft);
+            font-size: 0.94rem;
+            flex: 1;
+        }
+
+        .collection-link {
+            margin-top: 1.4rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-family: var(--mono);
+            font-size: 0.68rem;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: var(--ink);
+            border-bottom: 1px solid var(--ink);
+            align-self: flex-start;
+            padding-bottom: 2px;
+        }
+
+        .collection-link-button {
+            appearance: none;
+            background: none;
+            border: none;
+            cursor: pointer;
+        }
+
+        /* spec label / cataloguing template (unused)
+        .catalogue-block {
+            margin-top: 5rem;
+            display: grid;
+            grid-template-columns: 0.9fr 1.1fr;
+            gap: 3.5rem;
+            align-items: center;
+        }
+
+        .spec-card {
+            background: var(--paper);
+            border: 1px solid var(--vein-soft);
+            padding: 2.2rem;
+        }
+
+        .spec-card .spec-swatch {
+            aspect-ratio: 16/10;
+            margin-bottom: 1.6rem;
+            overflow: hidden;
+        }
+
+        .spec-card .spec-swatch svg {
+            width: 100%;
+            height: 100%;
+        }
+
+        .spec-row {
+            display: flex;
+            justify-content: space-between;
+            gap: 1rem;
+            padding: 0.7rem 0;
+            border-top: 1px solid var(--vein-soft);
+            font-size: 0.88rem;
+        }
+
+        .spec-row:last-child {
+            border-bottom: 1px solid var(--vein-soft);
+        }
+
+        .spec-row .k {
+            font-family: var(--mono);
+            font-size: 0.65rem;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: var(--ink-soft);
+        }
+
+        .spec-row .v {
+            color: var(--ink);
+            text-align: right;
+        }
+
+        .spec-note {
+            margin-top: 1.4rem;
+            font-size: 0.82rem;
+            color: var(--ink-soft);
+            font-style: italic;
+        } */
+
+        /* ---------- care ---------- */
+        .care {
+            background: var(--stone-100);
+            position: relative;
+        }
+
+        .care-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 5rem;
+        }
+
+        .care-list {
+            list-style: none;
+        }
+
+        .care-list li {
+            display: flex;
+            gap: 1rem;
+            padding: 1.1rem 0;
+            border-top: 1px solid var(--vein-soft);
+            font-size: 0.98rem;
+            color: var(--ink-soft);
+        }
+
+        .care-list li:last-child {
+            border-bottom: 1px solid var(--vein-soft);
+        }
+
+        .care-list .mark {
+            font-family: var(--mono);
+            color: var(--rose);
+            font-size: 0.85rem;
+            flex-shrink: 0;
+        }
+
+        /* .care-note {
+            margin-top: 2rem;
+            padding: 1.2rem 1.4rem;
+            background: var(--paper);
+            border-left: 2px solid var(--rose);
+            font-size: 0.88rem;
+            color: var(--ink-soft);
+            font-family: var(--sans);
+        } */
+
+        .images-care {
+            position: relative;
+        }
+
+        .images-care img {
+            position: absolute;
+        }
+
+        .images-care .images1 {
+            top: 200px;
+            left: 0;
+            width: 60%;
+            height: 60%;
+            border-radius: 12px;
+            object-fit: cover;
+            z-index: 9;
+        }
+
+        .images-care .images2 {
+            bottom: 30px;
+            border-radius: 12px;
+            object-fit: cover;
+            left: 179px;
+        }
+
+        /* ---------- promise / closing ---------- */
+        .promise {
+            text-align: center;
+            padding: 9rem 0 7rem;
+        }
+
+        .promise .kicker {
+            justify-content: center;
+        }
+
+        .promise .kicker::before {
+            display: none;
+        }
+
+        .promise h2 {
+            font-family: var(--serif);
+            font-weight: 400;
+            font-size: clamp(2.1rem, 5.5vw, 3.8rem);
+            line-height: 1.2;
+            max-width: 20ch;
+            margin: 0 auto;
+        }
+
+        .promise h2 em {
+            font-style: italic;
+            color: var(--pine);
+        }
+
+        .promise .final {
+            margin-top: 2.6rem;
+            font-family: var(--serif);
+            font-style: italic;
+            font-size: clamp(1.3rem, 2.6vw, 1.7rem);
+            color: var(--rose);
+        }
+
+        .promise .cta {
+            margin-top: 3rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.8rem;
+            font-family: var(--mono);
+            font-size: 0.72rem;
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
+            padding: 1rem 2rem;
+            border: 1px solid var(--ink);
+            border-radius: 999px;
+            transition: background .35s ease, color .35s ease;
+        }
+
+        .promise .cta:hover {
+            background: var(--ink);
+            color: var(--stone-50);
+        }
+
+        /* ---------- contact section ---------- */
+        .contact-section {
+            background: var(--stone-100);
+            padding: 6rem 0;
+        }
+
+        .contact-shell {
+            display: grid;
+            grid-template-columns: 1.15fr 0.85fr;
+            gap: 2rem;
+            align-items: start;
+        }
+
+        .contact-panel {
+            background: rgba(255, 255, 255, 0.42);
+            border: 1px solid rgba(156, 143, 124, 0.18);
+            border-radius: 22px;
+            padding: 1.4rem;
+            box-shadow: 0 18px 40px rgba(32, 28, 23, 0.08);
+        }
+
+        .contact-panel h2 {
+            font-family: var(--serif);
+            font-size: clamp(2rem, 4vw, 3rem);
+            font-weight: 500;
+            color: var(--ink);
+            line-height: 1.05;
+        }
+
+        .contact-panel p {
+            margin-top: 1rem;
+            color: var(--ink-soft);
+            max-width: 52ch;
+        }
+
+        .contact-list {
+            display: grid;
+            gap: 0.85rem;
+            margin-top: 1.4rem;
+        }
+
+        .contact-item {
+            display: flex;
+            justify-content: space-between;
+            gap: 1rem;
+            padding: 1rem 1.05rem;
+            border-radius: 16px;
+            border: 1px solid rgba(156, 143, 124, 0.14);
+            background: rgba(255, 255, 255, 0.6);
+            color: var(--ink);
+        }
+
+        .contact-item .label {
+            font-family: var(--mono);
+            font-size: 0.68rem;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: var(--ink-soft);
+        }
+
+        .contact-item .value {
+            text-align: right;
+            color: var(--ink);
+            font-weight: 500;
+        }
+
+        .contact-links {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.75rem;
+            margin-top: 1.4rem;
+        }
+
+        .contact-link {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 44px;
+            padding: 0.85rem 1.15rem;
+            border-radius: 999px;
+            border: 1px solid rgba(32, 28, 23, 0.14);
+            background: rgba(255, 255, 255, 0.55);
+            color: var(--ink);
+            font-family: var(--mono);
+            font-size: 0.68rem;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+        }
+
+        .contact-link.primary {
+            background: var(--ink);
+            color: var(--stone-50);
+            border-color: var(--ink);
+        }
+
+        .contact-map {
+            display: grid;
+            gap: 0.85rem;
+        }
+
+        .contact-note {
+            padding: 1rem;
+            border-radius: 18px;
+            background: rgba(24, 20, 16, 0.06);
+            border: 1px solid rgba(156, 143, 124, 0.12);
+            color: var(--ink-soft);
+        }
+
+        @media (max-width: 860px) {
+            .contact-shell {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* ---------- footer ---------- */
+        footer {
+            background: var(--ink);
+            color: var(--stone-100);
+            padding: 4rem 7rem 2rem;
+        }
+
+        .footer-top {
+            display: grid;
+            grid-template-columns: 1.4fr 1fr 1fr 1fr;
+            gap: 3rem;
+            padding-bottom: 3rem;
+            border-bottom: 1px solid rgba(232, 226, 213, 0.14);
+        }
+
+        .footer-logo {
+            font-family: var(--serif);
+            font-size: 1.6rem;
+            letter-spacing: 0.1em;
+        }
+
+        .footer-top p {
+            margin-top: 1.2rem;
+            color: rgba(232, 226, 213, 0.6);
+            max-width: 34ch;
+            font-size: 0.92rem;
+        }
+
+        .footer-col .eyebrow {
+            color: rgba(232, 226, 213, 0.55);
+            margin-bottom: 1rem;
+        }
+
+        .footer-col a {
+            display: block;
+            padding: 0.4rem 0;
+            font-size: 0.92rem;
+            color: rgba(232, 226, 213, 0.85);
+        }
+
+        .footer-col a:hover {
+            color: var(--rose-soft);
+        }
+
+        .footer-bottom {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-top: 1.6rem;
+            font-family: var(--mono);
+            font-size: 0.68rem;
+            letter-spacing: 0.06em;
+            color: rgba(232, 226, 213, 0.45);
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        /* ---------- enquiry modal ---------- */
+        .modal {
+            position: fixed;
+            inset: 0;
+            z-index: 200;
+            display: grid;
+            place-items: center;
+            padding: 1.5rem;
+            background: rgba(17, 15, 12, 0.62);
+            backdrop-filter: blur(10px);
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+            transition: opacity .28s ease, visibility .28s ease;
+        }
+
+        .modal.open {
+            opacity: 1;
+            visibility: visible;
+            pointer-events: auto;
+        }
+
+        .modal-card {
+            width: min(100%, 920px);
+            height: min(74vh, 600px);
+            max-height: min(74vh, 600px);
+            overflow: hidden;
+            border-radius: 22px;
+            background:
+                radial-gradient(circle at top left, rgba(177, 120, 95, 0.12), transparent 34%),
+                linear-gradient(180deg, #f5efe4 0%, #efe7d8 100%);
+            border: 1px solid rgba(156, 143, 124, 0.25);
+            box-shadow: 0 30px 80px rgba(0, 0, 0, 0.28);
+            padding: 1rem;
+            transform: translateY(14px) scale(0.98);
+            transition: transform .28s cubic-bezier(.2, .6, .2, 1);
+        }
+
+        .modal.open .modal-card {
+            transform: none;
+        }
+
+        .modal-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 1rem;
+            margin-bottom: 0.6rem;
+        }
+
+        .modal-close {
+            appearance: none;
+            border: none;
+            background: rgba(32, 28, 23, 0.08);
+            color: var(--ink);
+            width: 38px;
+            height: 38px;
+            border-radius: 999px;
+            cursor: pointer;
+            font-size: 1.2rem;
+            line-height: 1;
+        }
+
+        .modal h3 {
+            font-family: var(--serif);
+            font-size: clamp(1.35rem, 2.6vw, 1.8rem);
+            font-weight: 500;
+            color: var(--ink);
+            margin-bottom: 0.45rem;
+        }
+
+        .modal p {
+            color: var(--ink-soft);
+            line-height: 1.5;
+            font-size: 14px;
+        }
+
+        .modal-grid {
+            display: grid;
+            grid-template-columns: 0.8fr 1.2fr;
+            gap: 0.75rem;
+            margin-top: 0.75rem;
+            align-items: stretch;
+            height: 83%;
+        }
+
+        .modal-info,
+        .modal-gallery {
+            background: rgba(255, 255, 255, 0.42);
+            border: 1px solid rgba(156, 143, 124, 0.18);
+            border-radius: 16px;
+            padding: 0.75rem;
+        }
+
+        .modal-info .eyebrow {
+            margin-bottom: 0.55rem;
+        }
+
+        .modal-info {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .modal-info p+p {
+            margin-top: 0.7rem;
+        }
+
+        .modal-gallery {
+            overflow: hidden;
+            position: relative;
+            /* min-height: 260px; */
+            width: 100%;
+        }
+
+        .modal-gallery-inner {
+            position: relative;
+            z-index: 1;
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 0.55rem;
+            height: 100%;
+        }
+
+        .modal-gallery-column {
+            overflow: hidden;
+            height: 100%;
+        }
+
+        .modal-gallery-viewport {
+            height: 100%;
+            overflow: hidden;
+            mask-image: linear-gradient(to bottom, transparent 0%, rgb(67, 66, 66) 2%, rgb(67, 66, 66) 98%, transparent 100%);
+        }
+
+        .modal-gallery-track {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.7rem;
+            animation: modalGalleryScroll 24s linear infinite;
+            will-change: transform;
+            padding: 0.15rem 0;
+        }
+
+        .modal-gallery-track.reverse {
+            animation-direction: reverse;
+        }
+
+        .modal-gallery:hover .modal-gallery-track {
+            animation-play-state: paused;
+        }
+
+        .modal-image {
+            position: relative;
+            border-radius: 14px;
+            overflow: hidden;
+            min-height: 108px;
+            width: 100%;
+            max-width: 100%;
+            background: #ddd3c0;
+            box-shadow: 0 10px 28px rgba(32, 28, 23, 0.12);
+        }
+
+        .modal-image img {
+            width: 100%;
+            height: 100%;
+            display: block;
+            object-fit: cover;
+            aspect-ratio: 4 / 3;
+        }
+
+        .modal-image span {
+            position: absolute;
+            left: 0.85rem;
+            bottom: 0.85rem;
+            z-index: 1;
+            padding: 0.35rem 0.55rem;
+            border-radius: 999px;
+            background: rgba(24, 20, 16, 0.58);
+            color: var(--paper);
+            font-family: var(--mono);
+            font-size: 0.6rem;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+        }
+
+        @keyframes modalGalleryScroll {
+            from {
+                transform: translateY(0);
+            }
+
+            to {
+                transform: translateY(-50%);
+            }
+        }
+
+        .modal-actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.75rem;
+            margin-top: 1.25rem;
+        }
+
+        .modal-action {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 44px;
+            padding: 0.85rem 1rem;
+            border-radius: 999px;
+            border: 1px solid rgba(49, 63, 52, 0.18);
+            font-family: var(--mono);
+            font-size: 0.72rem;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            transition: transform .2s ease, background .2s ease, border-color .2s ease;
+        }
+
+        .modal-action:hover {
+            transform: translateY(-1px);
+        }
+
+        .modal-action.primary {
+            background: var(--pine);
+            color: var(--paper);
+            border-color: var(--pine);
+        }
+
+        .modal-action.secondary {
+            background: rgba(255, 255, 255, 0.42);
+            color: var(--ink);
+        }
+
+        @media (max-width: 640px) {
+            .modal-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .modal-gallery {
+                min-height: 220px;
+                width: 100%;
+                justify-self: stretch;
+            }
+
+            .modal-gallery-inner {
+                grid-template-columns: 1fr;
+                gap: 0.7rem;
+            }
+
+            .modal-image {
+                max-width: 100%;
+                min-height: 96px;
+            }
+        }
+
+        /* ---------- responsive ---------- */
+        @media (max-width: 860px) {
+            .vision {
+                grid-template-columns: 1fr;
+                gap: 2.4rem;
+            }
+
+            .vision-pull {
+                border-left: none;
+                border-top: 1px solid var(--vein-soft);
+                padding-left: 0;
+                padding-top: 1.6rem;
+            }
+
+            .principles {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+
+            .gallery-head {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+
+            .gallery-grid {
+                grid-template-columns: 1fr;
+                grid-auto-rows: auto;
+            }
+
+            .gallery-card.feature,
+            .gallery-card.tall,
+            .gallery-card.small {
+                grid-column: auto;
+                grid-row: auto;
+                min-height: 260px;
+            }
+
+            .gallery-card.small {
+                min-height: 200px;
+            }
+
+            .stand-item {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+
+            .stand-item:nth-child(even) {
+                direction: ltr;
+            }
+
+            .strip {
+                grid-template-columns: 1fr;
+            }
+
+            .care-grid {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+
+
+            .images-care {
+                position: relative;
+                display: flex;
+                flex-direction: column;
+                gap: 1rem;
+                align-items: center;
+                min-height: auto;
+            }
+
+            .images-care img {
+                position: static;
+                width: 100%;
+                max-width: 420px;
+                height: auto;
+                border-radius: 12px;
+                object-fit: cover;
+            }
+
+            .images-care .images1,
+            .images-care .images2 {
+                width: 100%;
+                left: auto;
+                top: auto;
+                bottom: auto;
+                transform: none;
+            }
+
+            .collections-grid {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+
+            /* .catalogue-block {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            } */
+
+            .footer-top {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+
+            nav {
+                position: fixed;
+                top: 0;
+                right: 0;
+                height: 100svh;
+                width: min(78vw, 320px);
+                background: var(--paper);
+                flex-direction: column;
+                justify-content: center;
+                align-items: flex-start;
+                gap: 2rem;
+                padding: 2rem var(--edge);
+                transform: translateX(100%);
+                transition: transform .5s cubic-bezier(.2, .6, .2, 1);
+                box-shadow: -8px 0 30px rgba(0, 0, 0, 0.08);
+            }
+
+            nav a {
+                color: var(--ink) !important;
+            }
+
+            .logo img {
+                width: 108px;
+            }
+
+            nav.open {
+                transform: translateX(0);
+            }
+
+            .nav-toggle {
+                display: flex;
+                flex-direction: column;
+                gap: 5px;
+                width: 26px;
+                z-index: 110;
+                background: none;
+                border: none;
+                cursor: pointer;
+            }
+
+            .nav-toggle span {
+                height: 1.5px;
+                width: 100%;
+                display: block;
+                transition: transform .3s ease, opacity .3s ease, background .4s ease;
+            }
+
+            .nav-toggle.open span:nth-child(1) {
+                transform: translateY(6.5px) rotate(45deg);
+            }
+
+            .nav-toggle.open span:nth-child(2) {
+                opacity: 0;
+            }
+
+            .nav-toggle.open span:nth-child(3) {
+                transform: translateY(-6.5px) rotate(-45deg);
+            }
+        }
+
+        @media (max-width: 450px) {
+            .gallery-showcase {
+                padding: 4.8rem 0 5rem;
+            }
+
+            .gallery-card.feature,
+            .gallery-card.tall,
+            .gallery-card.small {
+                min-height: 220px;
+            }
+
+            .vision-images {
+                display: none;
+            }
+
+            footer {
+                padding: 3rem 2rem 2rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <header id="site-header">
+        <a href="#" class="logo"><img src="./images/darklogo.png" alt="Argiri"></a>
+        <button class="nav-toggle" id="navToggle"
+            aria-label="Toggle navigation"><span></span><span></span><span></span></button>
+        <nav id="siteNav">
+            <a href="#heroSlider">Home</a>
+            <a href="#collections">Collections</a>
+            <a href="#vision">About US</a>
+            <a href="#care">Marble Care</a>
+            <a href="#promise">Our Promise</a>
+            <a href="#contact">Contact</a>
+        </nav>
+    </header>
+
+    <!-- ================= HERO SLIDER ================= -->
+    <section class="hero" id="heroSlider">
+
+        <!-- SLIDE 1 — Brand -->
+        <div class="hero-slide active" data-slide="0">
+            <div class="hero-slide-bg">
+                <img src="./images/maria-lupan-iojtp3GgAE8-unsplash.jpg" alt="Hero Image 1"
+                    style="width:100%; height:100%; object-fit:cover;">
+            </div>
+            <div class="hero-slide-scrim"></div>
+            <div class="hero-slide-content">
+                <div class="eyebrow hero-eyebrow">Argiri — Est. for the intimate scale</div>
+                <h1>Marble,<br>made <em>personal.</em></h1>
+                <p class="lede">Marble has long been reserved for the monumental. We bring it closer — shaping it into
+                    objects that belong to your everyday spaces, and stone that anchors the rooms you live in.</p>
+            </div>
+        </div>
+
+        <!-- SLIDE 2 — Divy -->
+        <div class="hero-slide" data-slide="1">
+            <div class="hero-slide-bg">
+                <img src="./images/New folder (1)/223A9834.JPG" alt="Hero Image 1"
+                    style="width:100%; height:100%; object-fit:cover;">
+            </div>
+            <div class="hero-slide-scrim"></div>
+            <div class="hero-slide-content">
+                <div class="eyebrow hero-eyebrow">Collection — Divy · White Marble</div>
+                <h1>Sculpted<br>in <em>silence.</em></h1>
+                <p class="lede">Moonlight, sacred architecture, and quiet minimalism — Divy turns white marble into
+                    softness, stillness, and understated luxury.</p>
+            </div>
+        </div>
+
+        <!-- SLIDE 3 — Karwaan -->
+        <div class="hero-slide" data-slide="2">
+            <div class="hero-slide-bg">
+                <img src="./images/Karwaan Collection/Airawat Inlay piece4(1).png" alt="Hero Image 3"
+                    style="width:100%; height:100%; object-fit:cover;">
+            </div>
+            <div class="hero-slide-scrim"></div>
+            <div class="hero-slide-content">
+                <div class="eyebrow hero-eyebrow">Collection — Karwaan · Pietra Dura Inlay</div>
+                <h1>A caravan,<br>carried in <em>stone.</em></h1>
+                <p class="lede">From Florence to India — Karwaan carries Italian inlay traditions into Mughal artistry,
+                    one intricate piece at a time.</p>
+            </div>
+        </div>
+
+        <!-- SLIDE 4 — Miraj -->
+        <div class="hero-slide" data-slide="3">
+            <div class="hero-slide-bg">
+                <img src="./images/Miraj Onyx Marble/MakarOnyx3.jpeg" alt="Hero Image 3"
+                    style="width:100%; height:100%; object-fit:cover;">
+            </div>
+            <div class="hero-slide-scrim"></div>
+            <div class="hero-slide-content">
+                <div class="eyebrow hero-eyebrow">Collection — Miraj · Onyx Marble</div>
+                <h1>Light,<br>held <em>within.</em></h1>
+                <p class="lede">Translucent, glowing when touched by light — Miraj carries the illusion and movement of
+                    a mirage into stone.</p>
+            </div>
+        </div>
+
+        <div class="hero-controls">
+            <div class="hero-dots" id="heroDots"></div>
+            <div class="hero-arrows">
+                <button class="hero-arrow" id="heroPrev" aria-label="Previous slide">‹</button>
+                <button class="hero-arrow" id="heroNext" aria-label="Next slide">›</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- ================= COLLECTIONS ================= -->
+    <section id="collections">
+        <div class="wrap">
+            <div class="kicker reveal">Collections</div>
+            <h2 class="section-title reveal">Three collections, three characters.</h2>
+            <p class="reveal" style="margin-top:1.2rem; max-width:56ch; color:var(--ink-soft);">Each Argiri collection
+                carries its own origin, material, and temperament — united by the same intention in every piece.</p>
+
+            <div class="collections-grid">
+
+                <!-- DIVY -->
+                <div class="collection-card reveal">
+                    <div class="swatch">
+                        <img src="./images/Divy White Marble/KendraPedestal3.jpeg" alt="Divy Collection"
+                            style="width:100%; height:100%; object-fit:cover;">
+                        <span class="swatch-label">White Marble</span>
+                    </div>
+                    <div class="collection-body">
+                        <div class="collection-origin">Sanskrit · Divine, Luminous</div>
+                        <h3>Divy</h3>
+                        <p class="meaning">A celebration of purity in its most timeless form.</p>
+                        <!-- <p class="desc">Sculpted in white marble, Divy draws inspiration from moonlight, sacred
+                            architecture, and quiet minimalism — where every piece embodies softness, stillness, and
+                            understated luxury. Rooted in simplicity yet rich in presence, it transforms everyday
+                            objects into serene works of art.</p> -->
+                        <button type="button" class="collection-link collection-link-button" id="divyEnquireBtn">Enquire
+                            about Divy →</button>
+                    </div>
+                </div>
+
+                <!-- KARWAAN -->
+                <div class="collection-card reveal">
+                    <div class="swatch">
+                        <img src="./images/Karwaan Collection/Jadai Mool Inlay Vase2(1).png" alt="Karwaan Collection"
+                            style="width:100%; height:100%; object-fit:cover;">
+                        <span class="swatch-label">Pietra Dura Inlay</span>
+                    </div>
+                    <div class="collection-body">
+                        <div class="collection-origin">Persian · Caravan</div>
+                        <h3>Karwaan</h3>
+                        <p class="meaning">A royal caravan, carrying stories across lands.</p>
+                        <!-- <p class="desc">Inspired by the historic journey of pietra dura craftsmanship from Florence to
+                            India, Karwaan celebrates the moment Italian stone-inlay traditions found new expression
+                            within Mughal artistry — a meeting of heritage, craftsmanship, and timeless design in every
+                            intricate inlay.</p> -->
+                        <button type="button" class="collection-link collection-link-button"
+                            id="karwaanEnquireBtn">Enquire
+                            about Karwaan →</button>
+                    </div>
+                </div>
+
+                <!-- MIRAJ -->
+                <div class="collection-card reveal">
+                    <div class="swatch">
+                        <img src="./images/Miraj Onyx Marble/SuraGoblet2(1).png" alt="Miraj Collection"
+                            style="width:100%; height:100%; object-fit:cover;">
+                        <span class="swatch-label">Onyx Marble</span>
+                    </div>
+                    <div class="collection-body">
+                        <div class="collection-origin">Arabic · Mirage</div>
+                        <h3>Miraj</h3>
+                        <p class="meaning">Captivating, mysterious, almost unreal.</p>
+                        <!-- <p class="desc">Named after the idea of a mirage, Miraj reflects the rare beauty of onyx marble
+                            — known for its translucent depth and its ability to glow when touched by light, carrying a
+                            sense of illusion and movement within the stone itself.</p> -->
+                        <button type="button" class="collection-link collection-link-button"
+                            id="mirajEnquireBtn">Enquire
+                            about Miraj →</button>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- CATALOGUING TEMPLATE -->
+            <!-- <div class="catalogue-block">
+      <div class="spec-card reveal">
+        <div class="spec-swatch">
+          <svg viewBox="0 0 400 250" xmlns="http://www.w3.org/2000/svg">
+            <rect width="400" height="250" fill="#efeae0"/>
+            <path d="M -20 70 C 90 30, 150 110, 260 70 S 420 40, 440 90" stroke="#c9c0ac" stroke-width="1.4" fill="none" opacity="0.6"/>
+            <path d="M -20 170 C 100 130, 170 200, 280 150 S 420 140, 440 180" stroke="#b1785f" stroke-width="1" fill="none" opacity="0.4"/>
+          </svg>
+        </div>
+        <div class="spec-row"><span class="k">Category</span><span class="v">Sculptural Object</span></div>
+        <div class="spec-row"><span class="k">Product Name</span><span class="v">Object name here</span></div>
+        <div class="spec-row"><span class="k">Marble Name</span><span class="v">e.g. Makrana White</span></div>
+        <div class="spec-row"><span class="k">Dimensions</span><span class="v">e.g. 18 × 18 × 4 cm</span></div>
+        <div class="spec-row"><span class="k">Finish / Polish</span><span class="v">e.g. Honed matte</span></div>
+        <div class="spec-row"><span class="k">Collection</span><span class="v">Divy / Karwaan / Miraj</span></div>
+        <div class="spec-note">Illustrative template — swap in real photography and copy for each catalogued piece.</div>
+      </div>
+      <div class="reveal">
+        <div class="kicker">Cataloguing Each Piece</div>
+        <h2 class="section-title">Every product, presented the same considered way.</h2>
+        <p style="margin-top:1.4rem; color:var(--ink-soft); max-width:52ch;">Each item in the Argiri catalogue is documented consistently — its category, name, imagery, dimensions, marble, and finish — alongside a short introduction that carries the same voice as the rest of the collection. This keeps the catalogue easy to browse and expand as new pieces are added.</p>
+        <p style="margin-top:1rem; color:var(--ink-soft); max-width:52ch;">Once product photography and details are ready, each entry can be dropped into this same card format, grouped under its collection.</p>
+      </div>
+    </div> -->
+        </div>
+    </section>
+
+    <!-- ================= VISION ================= -->
+    <section id="vision">
+        <div class="wrap">
+            <div class="kicker reveal">Our Vision</div>
+            <div class="vision">
+                <div class="vision-text reveal">
+                    <p>Marble has been part of the human story for centuries, often reserved for the monumental and the
+                        grand. At Argiri, we bring it closer — shaping it into objects that belong to your everyday
+                        spaces.</p>
+                    <p>Each piece is designed to be lived with, to quietly integrate into daily rituals, and to offer a
+                        sense of material depth beyond its form. We are building a world that exists to make marble
+                        intimate — where a small marble piece, placed with care, carries as much presence as an entire
+                        room.</p>
+                    <p><strong>Argiri is for everyone who believes and chooses to live with intention.</strong></p>
+                </div>
+                <div class="vision-pull reveal">"Where material beauty is felt quietly, personally, and with full
+                    intention."</div>
+            </div>
+        </div>
+        <div class="vision-images">
+            <img src="images/Divy White Marble/Shankh1.jpeg" class="float-img img1" alt="">
+            <img src="images/Karwaan Collection/Jadai Rakabi Inlay Plate2(1).png" class="float-img img2" alt="">
+            <img src="images/Miraj Onyx Marble/SebOnyx4.jpeg" class="float-img img3" alt="">
+            <img src="images/New folder (1)/223A9787.JPG" class="float-img img4" alt="">
+        </div>
+    </section>
+
+    <!-- ================= MISSION ================= -->
+    <section class="mission">
+        <svg class="feeling-veins" viewBox="0 0 1200 700" preserveAspectRatio="xMidYMid slice"
+            xmlns="http://www.w3.org/2000/svg">
+            <path class="vein-path" d="M -50 100 C 200 180, 260 40, 480 120 S 780 220, 1000 100 S 1200 60, 1260 140"
+                fill="none" stroke="#d9b7a2" stroke-width="1" opacity="0.3" />
+            <path class="vein-path" d="M -50 600 C 220 520, 320 640, 540 560 S 820 480, 1000 580 S 1150 640, 1260 560"
+                fill="none" stroke="#e8e2d5" stroke-width="0.8" opacity="0.22" />
+        </svg>
+        <div class="wrap mission-inner reveal">
+            <div class="kicker">Mission</div>
+            <h2>Argiri sources, crafts, and offers marble in <em>every form</em> — from sculptural objects to full stone
+                slabs — for those who see material not just as surface, but as something to be lived with.</h2>
+        </div>
+        <svg class="feeling-veins" viewBox="0 0 1200 700" preserveAspectRatio="xMidYMid slice"
+            xmlns="http://www.w3.org/2000/svg">
+            <path class="vein-path" d="M -50 100 C 200 180, 260 40, 480 120 S 780 220, 1000 100 S 1200 60, 1260 140"
+                fill="none" stroke="#d9b7a2" stroke-width="1" opacity="0.3" />
+            <path class="vein-path" d="M -50 600 C 220 520, 320 640, 540 560 S 820 480, 1000 580 S 1150 640, 1260 560"
+                fill="none" stroke="#e8e2d5" stroke-width="0.8" opacity="0.22" />
+        </svg>
+    </section>
+
+    <!-- ================= GALLERY ================= -->
+    <section id="gallery" class="gallery-showcase">
+        <div class="wrap">
+            <div class="kicker reveal">Gallery</div>
+            <div class="gallery-head reveal">
+                <div>
+                    <h2 class="section-title">A closer look at the material.</h2>
+                </div>
+                <p>
+                    A curated pause between collections, where Divy, Karwaan, and Miraj are shown as they deserve to be
+                    seen: quietly, clearly, and with space around them.
+                </p>
+            </div>
+
+            <div class="gallery-grid">
+                <figure class="gallery-card feature reveal">
+                    <img src="./images/Divy White Marble/KendraPedestal2.jpeg" alt="Divy marble pedestal in white marble">
+                    <figcaption class="gallery-card-content">
+                        <span class="gallery-pill">Divy</span>
+                    </figcaption>
+                </figure>
+
+                <figure class="gallery-card tall reveal">
+                    <img src="./images/Karwaan Collection/Jadai Mool Inlay Vase1(1).png" alt="Karwaan inlay vase">
+                    <figcaption class="gallery-card-content">
+                        <span class="gallery-pill">Karwaan</span>
+                    </figcaption>
+                </figure>
+
+                <figure class="gallery-card tall reveal">
+                    <img src="./images/Miraj Onyx Marble/MakarOnyx3.jpeg" alt="Miraj onyx marble object">
+                    <figcaption class="gallery-card-content">
+                        <span class="gallery-pill">Miraj</span>
+                    </figcaption>
+                </figure>
+
+                <figure class="gallery-card tall reveal">
+                    <img src="./images/Karwaan Collection/Airawat Inlay piece4(1).png" alt="Karwaan inlay piece">
+                    <figcaption class="gallery-card-content">
+                        <span class="gallery-pill">Karwaan</span>
+                    </figcaption>
+                </figure>
+
+                <figure class="gallery-card small reveal">
+                    <img src="./images/Divy White Marble/Shankh1.jpeg" alt="Divy shankh object in white marble">
+                    <figcaption class="gallery-card-content">
+                        <span class="gallery-pill">Divy</span>
+                    </figcaption>
+                </figure>
+
+                <figure class="gallery-card small reveal">
+                    <img src="./images/Miraj Onyx Marble/SuraGoblet2(1).png" alt="Miraj onyx goblet">
+                    <figcaption class="gallery-card-content">
+                        <span class="gallery-pill">Miraj</span>
+                    </figcaption>
+                </figure>
+
+                <figure class="gallery-card small reveal">
+                    <img src="./images/Karwaan Collection/Jadai Rakabi Inlay Plate2(1).png" alt="Karwaan inlay plate">
+                    <figcaption class="gallery-card-content">
+                        <span class="gallery-pill">Karwaan</span>
+                    </figcaption>
+                </figure>
+            </div>
+        </div>
+    </section>
+
+    <!-- ================= DESIGN PHILOSOPHY ================= -->
+    <section id="philosophy">
+        <div class="wrap">
+            <div class="kicker reveal">Design Philosophy</div>
+            <h2 class="section-title reveal">We design for the pause.</h2>
+            <div class="principles">
+                <div class="principle reveal">
+                    <div class="num">I — Intent</div>
+                    <h3>Chosen with care</h3>
+                    <p>Every tone, texture, and inlay is chosen with purpose — whether quiet or expressive. We work with
+                        the material, not over it, letting its depth and character lead.</p>
+                </div>
+                <div class="principle reveal">
+                    <div class="num">II — Balance</div>
+                    <h3>Structure meets fluidity</h3>
+                    <p>Balance defines our approach — between structure and fluidity, surface and texture, presence and
+                        subtlety. Each decision preserves clarity and character.</p>
+                </div>
+                <div class="principle reveal">
+                    <div class="num">III — Patience</div>
+                    <h3>Unhurried, considered</h3>
+                    <p>We move with patience. Each object is created to settle into its space with ease, revealing
+                        itself over time rather than demanding attention at once.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ================= WHAT WE STAND FOR ================= -->
+    <section id="stand">
+        <div class="wrap">
+            <div class="kicker reveal">What We Stand For</div>
+            <div class="stand-list">
+                <div class="stand-item reveal">
+                    <h3>Marble that meets you</h3>
+                    <p>Sometimes marble commands a room. Sometimes it catches the light on a quiet afternoon and stops
+                        you mid-thought. Argiri exists in that space — where material and moment find each other.</p>
+                </div>
+                <div class="stand-item reveal">
+                    <h3>One material, every world</h3>
+                    <p>Marble has lived in temples, in palaces, in the quietest corners of the most personal homes. It
+                        has never belonged to just one kind of space or one kind of person. Neither do we — Argiri is as
+                        much at home in a grand lobby as it is on a bedside table, because great material has no limits.
+                    </p>
+                </div>
+                <div class="stand-item reveal">
+                    <h3>Before it reaches you</h3>
+                    <p>Every piece is held before it is offered — turned, observed, and chosen not just for how it
+                        looks, but for how it feels. We work with a quiet sense of balance, something instinctive rather
+                        than defined. We take our time, so that by the time it reaches you, it feels certain.</p>
+                </div>
+            </div>
+
+            <div class="strip">
+                <div class="strip-cell reveal">
+                    <span class="tag">Sculptural Objects</span>
+                    <h4>Small pieces, full presence</h4>
+                </div>
+                <div class="strip-cell reveal">
+                    <span class="tag">Stone Slabs</span>
+                    <h4>Anchoring the rooms you live in</h4>
+                </div>
+                <div class="strip-cell reveal">
+                    <span class="tag">Bespoke</span>
+                    <h4>Chosen, turned, and offered with intention</h4>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ================= THE ARGIRI FEELING ================= -->
+    <section class="feeling">
+        <svg class="feeling-veins" viewBox="0 0 1200 700" preserveAspectRatio="xMidYMid slice"
+            xmlns="http://www.w3.org/2000/svg">
+            <path class="vein-path" d="M -50 100 C 200 180, 260 40, 480 120 S 780 220, 1000 100 S 1200 60, 1260 140"
+                fill="none" stroke="#000" stroke-width="1" opacity="0.3" />
+            <path class="vein-path" d="M -50 600 C 220 520, 320 640, 540 560 S 820 480, 1000 580 S 1150 640, 1260 560"
+                fill="none" stroke="#000" stroke-width="0.8" opacity="0.22" />
+        </svg>
+        <div class="wrap feeling-inner">
+            <div class="kicker reveal">The Argiri Feeling</div>
+            <blockquote class="reveal">Marble has a temperature. A weight. An emotion. When you hold it, something in
+                you settles.</blockquote>
+            <div class="after reveal">
+                <p>That is the "Argiri feeling" — the moment an object reminds you to be present. Not nostalgia. Not
+                    luxury for its own sake. Just the simple, profound experience of holding something real. And then it
+                    becomes yours.</p>
+                <p>Marble is not one thing. It is not just white, cold and silent. It is green, beige, black, rose, grey
+                    — veined and alive, each piece unrepeatable. It sits as naturally beside colorful beads and bold
+                    designs as it does in a quiet minimalist room. It doesn't ask you to change your world. It asks to
+                    be part of it, exactly as it is.</p>
+                <p>The pause belongs to the marble. Everything after belongs to you.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- ================= MARBLE CARE ================= -->
+    <section id="care" class="care">
+        <div class="wrap">
+            <div class="kicker reveal">Marble Care</div>
+            <h2 class="section-title reveal">Living with marble, well.</h2>
+            <div class="care-grid" style="margin-top:2.5rem;">
+                <ul class="care-list reveal">
+                    <li><span class="mark">01</span> Wipe spills promptly — acidic liquids like citrus, wine, and
+                        vinegar can etch the surface if left to sit.</li>
+                    <li><span class="mark">02</span> Clean with a soft cloth and a pH-neutral stone soap; avoid vinegar,
+                        bleach, and other acidic or abrasive household cleaners.</li>
+                    <li><span class="mark">03</span> Reseal periodically to help guard against staining, especially on
+                        frequently used surfaces.</li>
+                    <li><span class="mark">04</span> Use coasters and trivets under glasses, bottles, and hot cookware
+                        to prevent rings and heat marks.</li>
+                    <li><span class="mark">05</span> Dust sculptural pieces regularly with a dry, soft cloth to preserve
+                        their natural polish over time.</li>
+                </ul>
+                <div class="images-care">
+                    <img src="./images/Divy White Marble/KendraPedestal2.jpeg" alt="Marble Care" class="images1">
+                    <img src="./images/Karwaan Collection/Jadai Mool Inlay Vase1(1).png" alt="Marble Care"
+                        class="images2">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ================= PROMISE ================= -->
+    <section class="promise" id="promise">
+        <div class="wrap">
+            <div class="kicker reveal">Our Promise</div>
+            <h2 class="reveal">We will always make things <em>worth your attention.</em></h2>
+            <p class="reveal"
+                style="margin-top:1.6rem; color:var(--ink-soft); max-width:52ch; margin-left:auto; margin-right:auto;">
+                We will keep marble honest, human, and close — and we will never stop finding new ways to romanticize
+                the stone that has endured for centuries, so it can find its place in your world, as it is today.</p>
+            <div class="final reveal">Argiri — Marble, made personal.</div>
+            <a href="#contact" class="cta reveal">Begin a piece →</a>
+        </div>
+    </section>
+
+    <div class="modal" id="divyModal" aria-hidden="true">
+        <div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="divyModalTitle">
+            <div class="modal-top">
+                <div>
+                    <div class="eyebrow">Enquire</div>
+                    <h3 id="divyModalTitle">Divy, White Marble</h3>
+                </div>
+                <button type="button" class="modal-close" id="divyModalClose"
+                    aria-label="Close enquiry dialog">&times;</button>
+            </div>
+            <div class="modal-grid">
+                <div class="modal-info">
+                    <div class="eyebrow">Detail</div>
+                    <p>
+                        Sculpted in white marble, Divy draws inspiration from moonlight, sacred architecture, and quiet
+                        minimalism — where every piece embodies softness, stillness, and understated luxury. Rooted in
+                        simplicity yet rich in presence, it transforms everyday objects into serene works of art.
+                    </p>
+                     <p>Tell us the piece you want, the size you need, or the room you’re imagining it for. We’ll reply
+                        with availability and next steps.</p>
+                    <div class="modal-actions">
+                        <a class="modal-action primary"
+                            href="mailto:hello@argiri.com?subject=Enquiry%20about%20Divy">Email us</a>
+                        <a class="modal-action secondary"
+                            href="https://wa.me/910000000000?text=Hi%20Argiri%2C%20I%20want%20to%20enquire%20about%20Divy."
+                            target="_blank" rel="noopener">WhatsApp</a>
+                    </div>
+                </div>
+                <div class="modal-gallery">
+                    <div class="modal-gallery-inner">
+                        <div class="modal-gallery-column">
+                            <div class="modal-gallery-viewport">
+                                <div class="modal-gallery-track">
+                                    <div class="modal-image">
+                                        <img src="./images/Divy White Marble/KendraPedestal1.jpeg"
+                                            alt="Divy marble piece 1">
+                                        <span>Kendra Pedestal</span>
+                                    </div>
+                                    <div class="modal-image">
+                                        <img src="./images/Divy White Marble/KendraPedestal2.jpeg"
+                                            alt="Divy marble piece 2">
+                                        <span>Kendra Pedestal</span>
+                                    </div>
+                                    <div class="modal-image">
+                                        <img src="./images/Divy White Marble/KendraPedestal3.jpeg"
+                                            alt="Divy marble piece 3">
+                                        <span>Kendra Pedestal</span>
+                                    </div>
+                                    <div class="modal-image">
+                                        <img src="./images/Divy White Marble/UrliBowl1.jpeg" alt="Divy marble piece 4">
+                                        <span>Urli Bowl</span>
+                                    </div>
+                                    <div class="modal-image">
+                                        <img src="./images/Divy White Marble/UrliBowl2.jpeg" alt="Divy marble piece 5">
+                                        <span>Urli Bowl</span>
+                                    </div>
+                                    <div class="modal-image">
+                                        <img src="./images/Divy White Marble/Shankh1.jpeg" alt="Divy marble piece 6">
+                                        <span>Shankh</span>
+                                    </div>
+                                    <div class="modal-image">
+                                        <img src="./images/Divy White Marble/KendraPedestal1.jpeg"
+                                            alt="Divy marble piece 1 duplicate">
+                                        <span>Kendra Pedestal</span>
+                                    </div>
+                                    <div class="modal-image">
+                                        <img src="./images/Divy White Marble/KendraPedestal2.jpeg"
+                                            alt="Divy marble piece 2 duplicate">
+                                        <span>Kendra Pedestal</span>
+                                    </div>
+                                    <div class="modal-image">
+                                        <img src="./images/Divy White Marble/KendraPedestal3.jpeg"
+                                            alt="Divy marble piece 3 duplicate">
+                                        <span>Kendra Pedestal</span>
+                                    </div>
+                                    <div class="modal-image">
+                                        <img src="./images/Divy White Marble/UrliBowl1.jpeg"
+                                            alt="Divy marble piece 4 duplicate">
+                                        <span>Urli Bowl</span>
+                                    </div>
+                                    <div class="modal-image">
+                                        <img src="./images/Divy White Marble/UrliBowl2.jpeg"
+                                            alt="Divy marble piece 5 duplicate">
+                                        <span>Urli Bowl</span>
+                                    </div>
+                                    <div class="modal-image">
+                                        <img src="./images/Divy White Marble/Shankh1.jpeg"
+                                            alt="Divy marble piece 6 duplicate">
+                                        <span>Shankh</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-gallery-column">
+                            <div class="modal-gallery-viewport">
+                                <div class="modal-gallery-track reverse">
+                                    <div class="modal-image">
+                                        <img src="./images/Divy White Marble/MoolVase1.png" alt="Divy marble piece 7">
+                                        <span>Mool Vase</span>
+                                    </div>
+                                    <div class="modal-image">
+                                        <img src="./images/Divy White Marble/MoolVase2.png" alt="Divy marble piece 8">
+                                        <span>Mool Vase</span>
+                                    </div>
+                                    <div class="modal-image">
+                                        <img src="./images/Divy White Marble/MoolVase3.png" alt="Divy marble piece 9">
+                                        <span>Mool Vase</span>
+                                    </div>
+                                    <div class="modal-image">
+                                        <img src="./images/Divy White Marble/Vase1.jpeg" alt="Divy marble piece 10">
+                                        <span>Vase</span>
+                                    </div>
+                                    <div class="modal-image">
+                                        <img src="./images/Divy White Marble/vase2.jpeg" alt="Divy marble piece 11">
+                                        <span>Vase</span>
+                                    </div>
+                                    <div class="modal-image">
+                                        <img src="./images/Divy White Marble/vase3.jpeg" alt="Divy marble piece 12">
+                                        <span>Vase</span>
+                                    </div>
+                                    <div class="modal-image">
+                                        <img src="./images/Divy White Marble/MoolVase1.png"
+                                            alt="Divy marble piece 7 duplicate">
+                                        <span>Mool Vase</span>
+                                    </div>
+                                    <div class="modal-image">
+                                        <img src="./images/Divy White Marble/MoolVase2.png"
+                                            alt="Divy marble piece 8 duplicate">
+                                        <span>Mool Vase</span>
+                                    </div>
+                                    <div class="modal-image">
+                                        <img src="./images/Divy White Marble/MoolVase3.png"
+                                            alt="Divy marble piece 9 duplicate">
+                                        <span>Mool Vase</span>
+                                    </div>
+                                    <div class="modal-image">
+                                        <img src="./images/Divy White Marble/Vase1.jpeg"
+                                            alt="Divy marble piece 10 duplicate">
+                                        <span>Vase</span>
+                                    </div>
+                                    <div class="modal-image">
+                                        <img src="./images/Divy White Marble/vase2.jpeg"
+                                            alt="Divy marble piece 11 duplicate">
+                                        <span>Vase</span>
+                                    </div>
+                                    <div class="modal-image">
+                                        <img src="./images/Divy White Marble/vase3.jpeg"
+                                            alt="Divy marble piece 12 duplicate">
+                                        <span>Vase</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal" id="karwaanModal" aria-hidden="true">
+        <div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="karwaanModalTitle">
+            <div class="modal-top">
+                <div>
+                    <div class="eyebrow">Enquire</div>
+                    <h3 id="karwaanModalTitle">Karwaan, Pietra Dura Inlay</h3>
+                </div>
+                <button type="button" class="modal-close" id="karwaanModalClose"
+                    aria-label="Close enquiry dialog">&times;</button>
+            </div>
+            <div class="modal-grid">
+                <div class="modal-info">
+                    <div class="eyebrow">Detail</div>
+                        <p class="desc">
+                            Inspired by the historic journey of pietra dura craftsmanship from Florence to India, Karwaan celebrates the moment Italian stone-inlay traditions found new expression within Mughal artistry — a meeting of heritage, craftsmanship, and timeless design in every intricate inlay.
+                        </p>
+                        <p>Tell us the piece you want, the size you need, or the room you're imagining it for. We'll reply
+                        with availability and next steps.</p>
+                    <div class="modal-actions">
+                        <a class="modal-action primary"
+                            href="mailto:hello@argiri.com?subject=Enquiry%20about%20Karwaan">Email us</a>
+                        <a class="modal-action secondary"
+                            href="https://wa.me/910000000000?text=Hi%20Argiri%2C%20I%20want%20to%20enquire%20about%20Karwaan."
+                            target="_blank" rel="noopener">WhatsApp</a>
+                    </div>
+                </div>
+                <div class="modal-gallery">
+                    <div class="modal-gallery-inner">
+                        <div class="modal-gallery-column">
+                            <div class="modal-gallery-viewport">
+                                <div class="modal-gallery-track">
+                                    <div class="modal-image">
+                                        <img src="./images/Karwaan Collection/Airawat Inlay piece1.png"
+                                            alt="Karwaan piece 1">
+                                        <span>Airawat</span>
+                                    </div>
+                                    <div class="modal-image">
+                                        <img src="./images/Karwaan Collection/Airawat Inlay piece2.png"
+                                            alt="Karwaan piece 2">
+                                        <span>Airawat</span>
+                                    </div>
+                                    <div class="modal-image">
+                                        <img src="./images/Karwaan Collection/Airawat Inlay piece3.png"
+                                            alt="Karwaan piece 3">
+                                        <span>Airawat</span>
+                                    </div>
+                                    <div class="modal-image">
+                                        <img src="./images/Karwaan Collection/Airawat Inlay piece4(1).png"
+                                            alt="Karwaan piece 4">
+                                        <span>Airawat</span>
+                                    </div>
+                                    <div class="modal-image">
+                                        <img src="./images/Karwaan Collection/Jadai Mool Inlay Vase1.png"
+                                            alt="Karwaan piece 5">
+                                        <span>Jadai Vase</span>
+                                    </div>
+                                    <div class="modal-image">
+                                        <img src="./images/Karwaan Collection/Jadai Mool Inlay Vase2.png"
+                                            alt="Karwaan piece 6">
+                                        <span>Jadai Vase</span>
+                                    </div>
+                                    <div class="modal-image">
+                                        <img src="./images/Karwaan Collection/Airawat Inlay piece1.png"
+                                            alt="Karwaan piece 1 duplicate">
+                                        <span>Airawat</span>
+                                    </div>
+                                    <div class="modal-image">
+                                        <img src="./images/Karwaan Collection/Airawat Inlay piece2.png"
+                                            alt="Karwaan piece 2 duplicate">
+                                        <span>Airawat</span>
+                                    </div>
+                                    <div class="modal-image">
+                                        <img src="./images/Karwaan Collection/Airawat Inlay piece3.png"
+                                            alt="Karwaan piece 3 duplicate">
+                                        <span>Airawat</span>
+                                    </div>
+                                    <div class="modal-image">
+                                        <img src="./images/Karwaan Collection/Airawat Inlay piece4(1).png"
+                                            alt="Karwaan piece 4 duplicate">
+                                        <span>Airawat</span>
+                                    </div>
+                                    <div class="modal-image">
+                                        <img src="./images/Karwaan Collection/Jadai Mool Inlay Vase1.png"
+                                            alt="Karwaan piece 5 duplicate">
+                                        <span>Jadai Vase</span>
+                                    </div>
+                                    <div class="modal-image">
+                                        <img src="./images/Karwaan Collection/Jadai Mool Inlay Vase2.png"
+                                            alt="Karwaan piece 6 duplicate">
+                                        <span>Jadai Vase</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-gallery-column">
+                            <div class="modal-gallery-viewport">
+                                <div class="modal-gallery-track reverse">
+                                    <div class="modal-image">
+                                        <img src="./images/Karwaan Collection/Jadai Rakabi Inlay Plate1.png"
+                                            alt="Karwaan piece 7">
+                                        <span>Rakabi</span>
+                                    </div>
+                                    <div class="modal-image">
+                                        <img src="./images/Karwaan Collection/Jadai Rakabi Inlay Plate2(1).png"
+                                            alt="Karwaan piece 8">
+                                        <span>Rakabi</span>
+                                    </div>
+                                    <div class="modal-image">
+                                        <img src="./images/Karwaan Collection/Kawatch Inlay Coasters1.png"
+                                            alt="Karwaan piece 9">
+                                        <span>Kawatch</span>
+                                    </div>
+                                    <div class="modal-image">
+                                        <img src="./images/Karwaan Collection/Kawatch Inlay Coasters2.png"
+                                            alt="Karwaan piece 10">
+                                        <span>Kawatch</span>
+                                    </div>
+                                    <div class="modal-image">
+                                        <img src="./images/Karwaan Collection/Shatkon Inlay Storage Box1.png"
+                                            alt="Karwaan piece 11">
+                                        <span>Shatkon</span>
+                                    </div>
+                                    <div class="modal-image">
+                                        <img src="./images/Karwaan Collection/Varg Inlay Storage Box 1.png"
+                                            alt="Karwaan piece 12">
+                                        <span>Varg</span>
+                                    </div>
+                                    <div class="modal-image">
+                                        <img src="./images/Karwaan Collection/Jadai Rakabi Inlay Plate1.png"
+                                            alt="Karwaan piece 7 duplicate">
+                                        <span>Rakabi</span>
+                                    </div>
+                                    <div class="modal-image">
+                                        <img src="./images/Karwaan Collection/Jadai Rakabi Inlay Plate2(1).png"
+                                            alt="Karwaan piece 8 duplicate">
+                                        <span>Rakabi</span>
+                                    </div>
+                                    <div class="modal-image">
+                                        <img src="./images/Karwaan Collection/Kawatch Inlay Coasters1.png"
+                                            alt="Karwaan piece 9 duplicate">
+                                        <span>Kawatch</span>
+                                    </div>
+                                    <div class="modal-image">
+                                        <img src="./images/Karwaan Collection/Kawatch Inlay Coasters2.png"
+                                            alt="Karwaan piece 10 duplicate">
+                                        <span>Kawatch</span>
+                                    </div>
+                                    <div class="modal-image">
+                                        <img src="./images/Karwaan Collection/Shatkon Inlay Storage Box1.png"
+                                            alt="Karwaan piece 11 duplicate">
+                                        <span>Shatkon</span>
+                                    </div>
+                                    <div class="modal-image">
+                                        <img src="./images/Karwaan Collection/Varg Inlay Storage Box 1.png"
+                                            alt="Karwaan piece 12 duplicate">
+                                        <span>Varg</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal" id="mirajModal" aria-hidden="true">
+        <div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="mirajModalTitle">
+            <div class="modal-top">
+                <div>
+                    <div class="eyebrow">Enquire</div>
+                    <h3 id="mirajModalTitle">Miraj, Onyx Marble</h3>
+                </div>
+                <button type="button" class="modal-close" id="mirajModalClose"
+                    aria-label="Close enquiry dialog">&times;</button>
+            </div>
+            <div class="modal-grid">
+                <div class="modal-info">
+                    <div class="eyebrow">Detail</div>
+                    <p class="desc">
+                        Named after the idea of a mirage, Miraj reflects the rare beauty of onyx marble — known for its translucent depth and its ability to glow when touched by light, carrying a sense of illusion and movement within the stone itself.
+                    </p>
+                    <p>Tell us the piece you want, the size you need, or the room you're imagining it for. We'll reply
+                        with availability and next steps.</p>
+                    <div class="modal-actions">
+                        <a class="modal-action primary"
+                            href="mailto:hello@argiri.com?subject=Enquiry%20about%20Miraj">Email us</a>
+                        <a class="modal-action secondary"
+                            href="https://wa.me/910000000000?text=Hi%20Argiri%2C%20I%20want%20to%20enquire%20about%20Miraj."
+                            target="_blank" rel="noopener">WhatsApp</a>
+                    </div>
+                </div>
+                <div class="modal-gallery">
+                    <div class="modal-gallery-inner">
+                        <div class="modal-gallery-column">
+                            <div class="modal-gallery-viewport">
+                                <div class="modal-gallery-track">
+                                    <div class="modal-image">
+                                        <img src="./images/Miraj Onyx Marble/MakarOnyx1.jpeg" alt="Miraj piece 1">
+                                        <span>Makar Onyx</span>
+                                    </div>
+                                    <div class="modal-image">
+                                        <img src="./images/Miraj Onyx Marble/MakarOnyx2.jpeg" alt="Miraj piece 2">
+                                        <span>Makar Onyx</span>
+                                    </div>
+                                    <div class="modal-image">
+                                        <img src="./images/Miraj Onyx Marble/MakarOnyx3.jpeg" alt="Miraj piece 3">
+                                        <span>Makar Onyx</span>
+                                    </div>
+                                    <div class="modal-image">
+                                        <img src="./images/Miraj Onyx Marble/SebOnyx1.jpeg" alt="Miraj piece 4">
+                                        <span>Seb Onyx</span>
+                                    </div>
+                                    <div class="modal-image">
+                                        <img src="./images/Miraj Onyx Marble/SebOnyx2.jpeg" alt="Miraj piece 5">
+                                        <span>Seb Onyx</span>
+                                    </div>
+                                    <div class="modal-image">
+                                        <img src="./images/Miraj Onyx Marble/SebOnyx3.jpeg" alt="Miraj piece 6">
+                                        <span>Seb Onyx</span>
+                                    </div>
+                                    <div class="modal-image">
+                                        <img src="./images/Miraj Onyx Marble/MakarOnyx1.jpeg"
+                                            alt="Miraj piece 1 duplicate">
+                                        <span>Makar Onyx</span>
+                                    </div>
+                                    <div class="modal-image">
+                                        <img src="./images/Miraj Onyx Marble/MakarOnyx2.jpeg"
+                                            alt="Miraj piece 2 duplicate">
+                                        <span>Makar Onyx</span>
+                                    </div>
+                                    <div class="modal-image">
+                                        <img src="./images/Miraj Onyx Marble/MakarOnyx3.jpeg"
+                                            alt="Miraj piece 3 duplicate">
+                                        <span>Makar Onyx</span>
+                                    </div>
+                                    <div class="modal-image">
+                                        <img src="./images/Miraj Onyx Marble/SebOnyx1.jpeg"
+                                            alt="Miraj piece 4 duplicate">
+                                        <span>Seb Onyx</span>
+                                    </div>
+                                    <div class="modal-image">
+                                        <img src="./images/Miraj Onyx Marble/SebOnyx2.jpeg"
+                                            alt="Miraj piece 5 duplicate">
+                                        <span>Seb Onyx</span>
+                                    </div>
+                                    <div class="modal-image">
+                                        <img src="./images/Miraj Onyx Marble/SebOnyx3.jpeg"
+                                            alt="Miraj piece 6 duplicate">
+                                        <span>Seb Onyx</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-gallery-column">
+                            <div class="modal-gallery-viewport">
+                                <div class="modal-gallery-track reverse">
+                                    <div class="modal-image">
+                                        <img src="./images/Miraj Onyx Marble/SuraGoblet1(1).png" alt="Miraj piece 7">
+                                        <span>Sura Goblet</span>
+                                    </div>
+                                    <div class="modal-image">
+                                        <img src="./images/Miraj Onyx Marble/SuraGoblet2(1).png" alt="Miraj piece 8">
+                                        <span>Sura Goblet</span>
+                                    </div>
+                                    <div class="modal-image">
+                                        <img src="./images/Miraj Onyx Marble/SuraGoblet3(1).png" alt="Miraj piece 9">
+                                        <span>Sura Goblet</span>
+                                    </div>
+                                    <div class="modal-image">
+                                        <img src="./images/Miraj Onyx Marble/VrittOnyxvase1.jpeg" alt="Miraj piece 10">
+                                        <span>Vritt Vase</span>
+                                    </div>
+                                    <div class="modal-image">
+                                        <img src="./images/Miraj Onyx Marble/VrittOnyxvase2.jpeg" alt="Miraj piece 11">
+                                        <span>Vritt Vase</span>
+                                    </div>
+                                    <div class="modal-image">
+                                        <img src="./images/Miraj Onyx Marble/VrittOnyxvase3.jpeg" alt="Miraj piece 12">
+                                        <span>Vritt Vase</span>
+                                    </div>
+                                    <div class="modal-image">
+                                        <img src="./images/Miraj Onyx Marble/SuraGoblet1(1).png"
+                                            alt="Miraj piece 7 duplicate">
+                                        <span>Sura Goblet</span>
+                                    </div>
+                                    <div class="modal-image">
+                                        <img src="./images/Miraj Onyx Marble/SuraGoblet2(1).png"
+                                            alt="Miraj piece 8 duplicate">
+                                        <span>Sura Goblet</span>
+                                    </div>
+                                    <div class="modal-image">
+                                        <img src="./images/Miraj Onyx Marble/SuraGoblet3(1).png"
+                                            alt="Miraj piece 9 duplicate">
+                                        <span>Sura Goblet</span>
+                                    </div>
+                                    <div class="modal-image">
+                                        <img src="./images/Miraj Onyx Marble/VrittOnyxvase1.jpeg"
+                                            alt="Miraj piece 10 duplicate">
+                                        <span>Vritt Vase</span>
+                                    </div>
+                                    <div class="modal-image">
+                                        <img src="./images/Miraj Onyx Marble/VrittOnyxvase2.jpeg"
+                                            alt="Miraj piece 11 duplicate">
+                                        <span>Vritt Vase</span>
+                                    </div>
+                                    <div class="modal-image">
+                                        <img src="./images/Miraj Onyx Marble/VrittOnyxvase3.jpeg"
+                                            alt="Miraj piece 12 duplicate">
+                                        <span>Vritt Vase</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ================= CONTACT ================= -->
+    <section id="contact" class="contact-section">
+        <div class="wrap">
+            <div class="kicker reveal">Contact</div>
+            <div class="contact-shell">
+                <div class="contact-panel reveal">
+                    <h2>Let us know what you're imagining.</h2>
+                    <p>
+                        Whether it’s a single object, a collection enquiry, or a custom stone piece, we’d love to hear
+                        from you and guide the next step with care.
+                    </p>
+                    <div class="contact-links">
+                        <a class="contact-link primary" href="mailto:hello@argiri.com">Email Argiri</a>
+                        <a class="contact-link" href="tel:+910000000000">Call Us</a>
+                        <a class="contact-link" href="https://wa.me/910000000000" target="_blank"
+                            rel="noopener">WhatsApp</a>
+                    </div>
+                </div>
+                <div class="contact-map reveal">
+                    <div class="contact-panel">
+                        <div class="eyebrow">Studio</div>
+                        <div class="contact-list">
+                            <div class="contact-item">
+                                <div>
+                                    <div class="label">Email</div>
+                                    <div class="value">hello@argiri.com</div>
+                                </div>
+                            </div>
+                            <div class="contact-item">
+                                <div>
+                                    <div class="label">Phone</div>
+                                    <div class="value">+91 00000 00000</div>
+                                </div>
+                            </div>
+                            <div class="contact-item">
+                                <div>
+                                    <div class="label">Instagram</div>
+                                    <div class="value">@argiri</div>
+                                </div>
+                            </div>
+                            <div class="contact-note">
+                                Argiri Studio<br>
+                                123 Marble Street<br>
+                                City, State, ZIP
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ================= FOOTER / CONTACT ================= -->
+    <footer>
+        <div class="footer-top">
+            <div>
+                <div class="footer-logo">
+                    <img src="./images/page_1.png" alt="Argiri" style="width: 150px; height: auto;">
+                </div>
+                <p>Marble, sourced and crafted for those who choose to live with intention — from a single object to
+                    a full stone slab.</p>
+            </div>
+            <div class="footer-col">
+                <div class="eyebrow">Explore</div>
+                <a href="#heroSlider">Home</a>
+                <a href="#collections">Collections</a>
+                <a href="#vision">About US</a>
+                <a href="#promise">Our Promise</a>
+                <a href="#care">Marble Care</a>
+                <a href="#contact">Contact</a>
+            </div>
+            <div class="footer-col">
+                <div class="eyebrow">Reach Us</div>
+                <a href="mailto:hello@argiri.com">hello@argiri.com</a>
+                <a href="tel:+910000000000">+91 00000 00000</a>
+                <a href="#">Instagram</a>
+                <a href="#">WhatsApp</a>
+            </div>
+            <div class="footer-col">
+                <div class="eyebrow">Address</div>
+
+                <p>Argiri Studio<br>123 Marble Street<br>City, State, ZIP</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <span>© 2026 Argiri. All rights reserved.</span>
+            <span>Marble, made personal.</span>
+        </div>
+    </footer>
+
+    <script>
+        // header scroll state
+        const header = document.getElementById('site-header');
+        window.addEventListener('scroll', () => {
+            header.classList.toggle('scrolled', window.scrollY > 40);
+        });
+
+        // mobile nav toggle
+        const navToggle = document.getElementById('navToggle');
+        const siteNav = document.getElementById('siteNav');
+        navToggle.addEventListener('click', () => {
+            navToggle.classList.toggle('open');
+            siteNav.classList.toggle('open');
+        });
+        siteNav.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
+            navToggle.classList.remove('open');
+            siteNav.classList.remove('open');
+        }));
+
+        // scroll reveal
+        const io = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('in');
+                    io.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.15 });
+
+        document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+
+        // enquiry modals
+        const enquiryModals = [
+            {
+                button: document.getElementById('divyEnquireBtn'),
+                modal: document.getElementById('divyModal'),
+                close: document.getElementById('divyModalClose')
+            },
+            {
+                button: document.getElementById('karwaanEnquireBtn'),
+                modal: document.getElementById('karwaanModal'),
+                close: document.getElementById('karwaanModalClose')
+            },
+            {
+                button: document.getElementById('mirajEnquireBtn'),
+                modal: document.getElementById('mirajModal'),
+                close: document.getElementById('mirajModalClose')
+            }
+        ];
+
+        function openModal(modal) {
+            modal.classList.add('open');
+            modal.setAttribute('aria-hidden', 'false');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeModal(modal) {
+            modal.classList.remove('open');
+            modal.setAttribute('aria-hidden', 'true');
+            if (!document.querySelector('.modal.open')) {
+                document.body.style.overflow = '';
+            }
+        }
+
+        enquiryModals.forEach(({ button, modal, close }) => {
+            button?.addEventListener('click', () => openModal(modal));
+            close?.addEventListener('click', () => closeModal(modal));
+            modal?.addEventListener('click', (event) => {
+                if (event.target === modal) closeModal(modal);
+            });
+        });
+
+        window.addEventListener('keydown', (event) => {
+            if (event.key !== 'Escape') return;
+            enquiryModals.forEach(({ modal }) => {
+                if (modal?.classList.contains('open')) {
+                    closeModal(modal);
+                }
+            });
+        });
+
+        // ---------- hero slider ----------
+        (function () {
+            const slides = Array.from(document.querySelectorAll('.hero-slide'));
+            const dotsWrap = document.getElementById('heroDots');
+            const prevBtn = document.getElementById('heroPrev');
+            const nextBtn = document.getElementById('heroNext');
+            const slider = document.getElementById('heroSlider');
+            let current = 0;
+            let timer = null;
+            const DURATION = 7000;
+
+            slides.forEach((_, i) => {
+                const dot = document.createElement('button');
+                dot.className = 'hero-dot' + (i === 0 ? ' active' : '');
+                dot.setAttribute('aria-label', 'Go to slide ' + (i + 1));
+                dot.addEventListener('click', () => goTo(i));
+                dotsWrap.appendChild(dot);
+            });
+            const dots = Array.from(dotsWrap.children);
+
+            function render() {
+                slides.forEach((s, i) => s.classList.toggle('active', i === current));
+                dots.forEach((d, i) => {
+                    d.classList.remove('active');
+                    void d.offsetWidth; // restart fill animation
+                    if (i === current) d.classList.add('active');
+                });
+            }
+            function goTo(i) {
+                current = (i + slides.length) % slides.length;
+                render();
+                restart();
+            }
+            function next() { goTo(current + 1); }
+            function prev() { goTo(current - 1); }
+            function restart() {
+                clearInterval(timer);
+                timer = setInterval(next, DURATION);
+            }
+
+            nextBtn.addEventListener('click', next);
+            prevBtn.addEventListener('click', prev);
+            slider.addEventListener('mouseenter', () => clearInterval(timer));
+            slider.addEventListener('mouseleave', restart);
+
+            // touch swipe
+            let touchX = null;
+            slider.addEventListener('touchstart', e => touchX = e.touches[0].clientX, { passive: true });
+            slider.addEventListener('touchend', e => {
+                if (touchX === null) return;
+                const dx = e.changedTouches[0].clientX - touchX;
+                if (Math.abs(dx) > 40) { dx < 0 ? next() : prev(); }
+                touchX = null;
+            }, { passive: true });
+
+            // keyboard
+            window.addEventListener('keydown', e => {
+                if (e.key === 'ArrowRight') next();
+                if (e.key === 'ArrowLeft') prev();
+            });
+
+            render();
+            restart();
+        })();
+
+        const veinIO = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.querySelectorAll('.vein-path').forEach(p => p.classList.add('in'));
+                    veinIO.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.2 });
+        document.querySelectorAll('.feeling-veins').forEach(el => veinIO.observe(el));
+    </script>
+
+</body>
+
+</html>
