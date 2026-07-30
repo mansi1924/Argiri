@@ -580,6 +580,7 @@
 
         /* ---------- gallery showcase ---------- */
         .gallery-showcase {
+            display: none;
             position: relative;
             padding: 6rem 0 6.5rem;
             background:
@@ -784,6 +785,7 @@
             font-size: clamp(1.7rem, 4vw, 3rem);
             line-height: 1.28;
             color: var(--ink);
+            max-width: 76%;
         }
 
         .feeling .after {
@@ -1269,6 +1271,10 @@
             .contact-shell {
                 grid-template-columns: 1fr;
             }
+
+            .feeling blockquote{
+                max-width: 100%;
+            }
         }
 
         /* ---------- footer ---------- */
@@ -1650,6 +1656,7 @@
                 gap: 1rem;
                 align-items: center;
                 min-height: auto;
+                display: none;
             }
 
             .images-care img {
@@ -2126,7 +2133,7 @@
                 </div>
             </div>
 
-            <div class="strip">
+            <!-- <div class="strip">
                 <div class="strip-cell reveal">
                     <span class="tag">Sculptural Objects</span>
                     <h4>Small pieces, full presence</h4>
@@ -2139,7 +2146,7 @@
                     <span class="tag">Bespoke</span>
                     <h4>Chosen, turned, and offered with intention</h4>
                 </div>
-            </div>
+            </div> -->
         </div>
     </section>
 
