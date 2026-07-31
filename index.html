@@ -36,7 +36,7 @@
             --mono: "Space Mono", monospace;
 
             --maxw: 1180px;
-            --edge: clamp(1.5rem, 5vw, 5rem);
+            --edge: clamp(1.5rem, 3vw, 5rem);
         }
 
         * {
@@ -242,19 +242,6 @@
             overflow: hidden;
         }
 
-        /* .hero-slide-bg svg {
-            position: absolute;
-            inset: 0;
-            width: 100%;
-            height: 100%;
-            transform: scale(1.06);
-            transition: transform 9s linear;
-        }
-
-        .hero-slide.active .hero-slide-bg svg {
-            transform: scale(1.16);
-        } */
-
         .hero-slide-scrim {
             position: absolute;
             inset: 0;
@@ -322,19 +309,6 @@
             justify-content: space-between;
             padding: 0 var(--edge);
         }
-
-        /* .scroll-cue{
-    display:flex; align-items:center; gap: 0.8rem;
-    font-family: var(--mono); font-size: 0.64rem; letter-spacing: 0.16em; text-transform:uppercase;
-    color: rgba(242,238,228,0.7);
-  }
-  .scroll-cue .line{ width: 34px; height:1px; background: rgba(242,238,228,0.35); position:relative; overflow:hidden; }
-  .scroll-cue .line::after{
-    content:""; position:absolute; left:-100%; top:0; height:100%; width:100%;
-    background: var(--rose-soft);
-    animation: crawl 2.6s ease-in-out infinite;
-  }
-  @keyframes crawl{ 0%{left:-100%;} 50%{left:0;} 100%{left:100%;} } */
 
         .hero-dots {
             display: flex;
@@ -407,12 +381,6 @@
             position: relative;
             padding: 7rem 0;
         }
-
-        /* .divider {
-            width: 100%;
-            height: 1px;
-            background: linear-gradient(to right, transparent, var(--vein-soft) 20%, var(--vein-soft) 80%, transparent);
-        } */
 
         .kicker {
             font-family: var(--mono);
@@ -487,7 +455,6 @@
 
         #vision {
             position: relative;
-            /* overflow: hidden; */
         }
 
         .vision-images {
@@ -507,8 +474,6 @@
             transition: .5s;
             animation: float 8s ease-in-out infinite;
         }
-
-        /* Random positions */
 
         .img1 {
             top: -6%;
@@ -546,7 +511,6 @@
             }
         }
 
-
         /* ---------- mission band (inverted) ---------- */
         .mission {
             background: var(--pine);
@@ -562,9 +526,9 @@
             background: var(--rose-soft);
         }
 
-        .mission-inner {
+        /* .mission-inner {
             max-width: 760px;
-        }
+        } */
 
         .mission h2 {
             font-family: var(--serif);
@@ -580,17 +544,12 @@
 
         /* ---------- gallery showcase ---------- */
         .gallery-showcase {
-            display: none;
             position: relative;
-            padding: 6rem 0 6.5rem;
-            background:
-                radial-gradient(circle at 18% 0%, rgba(177, 120, 95, 0.14), transparent 28%),
-                radial-gradient(circle at 82% 12%, rgba(32, 28, 23, 0.08), transparent 24%),
-                linear-gradient(180deg, #f6f0e5 0%, #efe6d7 100%);
+            padding: 6rem 0;
             overflow: hidden;
         }
 
-        .gallery-showcase::before {
+        /* .gallery-showcase::before {
             content: "";
             position: absolute;
             top: -10rem;
@@ -600,19 +559,13 @@
             border-radius: 50%;
             background: radial-gradient(circle, rgba(255, 255, 255, 0.55) 0%, rgba(255, 255, 255, 0) 70%);
             pointer-events: none;
-        }
+        } */
 
         .gallery-head {
             display: grid;
             grid-template-columns: 1.1fr 0.9fr;
             gap: 2rem;
             align-items: end;
-        }
-
-        .gallery-head p {
-            max-width: 38ch;
-            color: var(--ink-soft);
-            line-height: 1.6;
         }
 
         .gallery-grid {
@@ -627,8 +580,8 @@
             position: relative;
             border-radius: 24px;
             overflow: hidden;
-            background: #ddd3c0;
-            box-shadow: 0 18px 50px rgba(32, 28, 23, 0.16);
+            /* background: #ddd3c0; */
+            box-shadow: 0 18px 50px rgba(100, 91, 81, 0.16);
             isolation: isolate;
         }
 
@@ -650,7 +603,7 @@
             content: "";
             position: absolute;
             inset: 0;
-            background: linear-gradient(180deg, rgba(24, 20, 16, 0) 30%, rgba(24, 20, 16, 0.7) 100%);
+            /* background: linear-gradient(180deg, rgba(24, 20, 16, 0) 30%, rgba(24, 20, 16, 0.7) 100%); */
             z-index: 0;
         }
 
@@ -660,17 +613,17 @@
             min-height: 504px;
         }
 
-        .gallery-card.tall {
+        /* .gallery-card.tall {
             grid-column: span 5;
             min-height: 160px;
-        }
+        } */
 
-        .gallery-card.small {
+        /* .gallery-card.small {
             grid-column: span 4;
             min-height: 160px;
-        }
+        } */
 
-        .gallery-card-content {
+        /* .gallery-card-content {
             position: absolute;
             left: 0;
             right: 0;
@@ -678,7 +631,7 @@
             z-index: 1;
             padding: 1.15rem 1.15rem 1.05rem;
             color: var(--paper);
-        }
+        } */
 
         .gallery-pill {
             display: inline-flex;
@@ -708,6 +661,70 @@
             font-size: 0.92rem;
             line-height: 1.45;
             color: rgba(245, 239, 228, 0.84);
+        }
+
+        /* ---------- gallery marquee (auto scroller) ---------- */
+        .gallery-marquee {
+            margin-top: 3rem;
+            position: relative;
+        }
+
+        .gallery-marquee-track {
+            display: flex;
+            gap: 1rem;
+            width: max-content;
+            animation: galleryMarqueeScroll 34s linear infinite;
+        }
+
+        .gallery-marquee:hover .gallery-marquee-track {
+            animation-play-state: paused;
+        }
+
+        .gallery-marquee-item {
+            position: relative;
+            flex-shrink: 0;
+            height: 250px;
+            border-radius: 16px;
+            overflow: hidden;
+            background: #ddd3c0;
+            box-shadow: 0 12px 30px rgba(32, 28, 23, 0.14);
+        }
+
+        .gallery-marquee-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .gallery-marquee-item span {
+            position: absolute;
+            left: 0.65rem;
+            bottom: 0.65rem;
+            padding: 0.3rem 0.55rem;
+            border-radius: 999px;
+            background: rgba(24, 20, 16, 0.55);
+            color: var(--paper);
+            font-family: var(--mono);
+            font-size: 0.58rem;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+        }
+
+        @keyframes galleryMarqueeScroll {
+            from {
+                transform: translateX(0);
+            }
+
+            to {
+                transform: translateX(-50%);
+            }
+        }
+
+        @media (max-width: 620px) {
+            .gallery-marquee-item {
+                width: 170px;
+                height: 120px;
+            }
         }
 
         /* ---------- philosophy triptych ---------- */
@@ -749,7 +766,7 @@
 
         /* ---------- feeling (duotone dark) ---------- */
         .feeling {
-            background-image: url("./images/ChatGPT Image Jul 29, 2026, 07_29_46 PM.png");
+            background-image: url("./images/background-images.png");
             background-size: cover;
             background-position: center;
             background-repeat: no-repeat;
@@ -895,12 +912,6 @@
             overflow: hidden;
         }
 
-        /* .swatch svg {
-            width: 100%;
-            height: 100%;
-            display: block;
-        } */
-
         .swatch .swatch-label {
             position: absolute;
             bottom: 0.8rem;
@@ -973,65 +984,6 @@
             cursor: pointer;
         }
 
-        /* spec label / cataloguing template (unused)
-        .catalogue-block {
-            margin-top: 5rem;
-            display: grid;
-            grid-template-columns: 0.9fr 1.1fr;
-            gap: 3.5rem;
-            align-items: center;
-        }
-
-        .spec-card {
-            background: var(--paper);
-            border: 1px solid var(--vein-soft);
-            padding: 2.2rem;
-        }
-
-        .spec-card .spec-swatch {
-            aspect-ratio: 16/10;
-            margin-bottom: 1.6rem;
-            overflow: hidden;
-        }
-
-        .spec-card .spec-swatch svg {
-            width: 100%;
-            height: 100%;
-        }
-
-        .spec-row {
-            display: flex;
-            justify-content: space-between;
-            gap: 1rem;
-            padding: 0.7rem 0;
-            border-top: 1px solid var(--vein-soft);
-            font-size: 0.88rem;
-        }
-
-        .spec-row:last-child {
-            border-bottom: 1px solid var(--vein-soft);
-        }
-
-        .spec-row .k {
-            font-family: var(--mono);
-            font-size: 0.65rem;
-            letter-spacing: 0.1em;
-            text-transform: uppercase;
-            color: var(--ink-soft);
-        }
-
-        .spec-row .v {
-            color: var(--ink);
-            text-align: right;
-        }
-
-        .spec-note {
-            margin-top: 1.4rem;
-            font-size: 0.82rem;
-            color: var(--ink-soft);
-            font-style: italic;
-        } */
-
         /* ---------- care ---------- */
         .care {
             background: var(--stone-100);
@@ -1067,16 +1019,6 @@
             font-size: 0.85rem;
             flex-shrink: 0;
         }
-
-        /* .care-note {
-            margin-top: 2rem;
-            padding: 1.2rem 1.4rem;
-            background: var(--paper);
-            border-left: 2px solid var(--rose);
-            font-size: 0.88rem;
-            color: var(--ink-soft);
-            font-family: var(--sans);
-        } */
 
         .images-care {
             position: relative;
@@ -1272,7 +1214,7 @@
                 grid-template-columns: 1fr;
             }
 
-            .feeling blockquote{
+            .feeling blockquote {
                 max-width: 100%;
             }
         }
@@ -1444,7 +1386,6 @@
         .modal-gallery {
             overflow: hidden;
             position: relative;
-            /* min-height: 260px; */
             width: 100%;
         }
 
@@ -1567,28 +1508,6 @@
             color: var(--ink);
         }
 
-        @media (max-width: 640px) {
-            .modal-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .modal-gallery {
-                min-height: 220px;
-                width: 100%;
-                justify-self: stretch;
-            }
-
-            .modal-gallery-inner {
-                grid-template-columns: 1fr;
-                gap: 0.7rem;
-            }
-
-            .modal-image {
-                max-width: 100%;
-                min-height: 96px;
-            }
-        }
-
         /* ---------- responsive ---------- */
         @media (max-width: 860px) {
             .vision {
@@ -1604,8 +1523,7 @@
             }
 
             .principles {
-                grid-template-columns: 1fr;
-                gap: 2rem;
+                gap: 1rem;
             }
 
             .gallery-head {
@@ -1631,7 +1549,6 @@
             }
 
             .stand-item {
-                grid-template-columns: 1fr;
                 gap: 1rem;
             }
 
@@ -1648,44 +1565,27 @@
                 gap: 2rem;
             }
 
-
             .images-care {
-                position: relative;
-                display: flex;
-                flex-direction: column;
-                gap: 1rem;
-                align-items: center;
-                min-height: auto;
                 display: none;
             }
 
-            .images-care img {
-                position: static;
-                width: 100%;
-                max-width: 420px;
-                height: auto;
-                border-radius: 12px;
-                object-fit: cover;
-            }
-
-            .images-care .images1,
-            .images-care .images2 {
-                width: 100%;
-                left: auto;
-                top: auto;
-                bottom: auto;
-                transform: none;
-            }
-
             .collections-grid {
-                grid-template-columns: 1fr;
-                gap: 2rem;
+                gap: 1rem;
             }
 
-            /* .catalogue-block {
-                grid-template-columns: 1fr;
-                gap: 2rem;
-            } */
+            .img4,
+            .img2 {
+                display: none;
+            }
+
+            .img3 {
+                left: 20%;
+            }
+
+            .float-img {
+                width: 150px;
+                height: 150px;
+            }
 
             .footer-top {
                 grid-template-columns: 1fr;
@@ -1750,6 +1650,30 @@
             .nav-toggle.open span:nth-child(3) {
                 transform: translateY(-6.5px) rotate(-45deg);
             }
+
+            
+            .modal-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        @media (max-width: 640px) {
+
+            .modal-gallery {
+                min-height: 220px;
+                width: 100%;
+                justify-self: stretch;
+            }
+
+            .modal-gallery-inner {
+                grid-template-columns: 1fr;
+                gap: 0.7rem;
+            }
+
+            .modal-image {
+                max-width: 100%;
+                min-height: 96px;
+            }
         }
 
         @media (max-width: 450px) {
@@ -1763,12 +1687,13 @@
                 min-height: 220px;
             }
 
-            .vision-images {
-                display: none;
-            }
-
             footer {
                 padding: 3rem 2rem 2rem;
+            }
+
+            .collections-grid,
+            .principles {
+                grid-template-columns: 1fr;
             }
         }
     </style>
@@ -1883,10 +1808,6 @@
                         <div class="collection-origin">Sanskrit · Divine, Luminous</div>
                         <h3>Divy</h3>
                         <p class="meaning">A celebration of purity in its most timeless form.</p>
-                        <!-- <p class="desc">Sculpted in white marble, Divy draws inspiration from moonlight, sacred
-                            architecture, and quiet minimalism — where every piece embodies softness, stillness, and
-                            understated luxury. Rooted in simplicity yet rich in presence, it transforms everyday
-                            objects into serene works of art.</p> -->
                         <button type="button" class="collection-link collection-link-button" id="divyEnquireBtn">Enquire
                             about Divy →</button>
                     </div>
@@ -1903,10 +1824,6 @@
                         <div class="collection-origin">Persian · Caravan</div>
                         <h3>Karwaan</h3>
                         <p class="meaning">A royal caravan, carrying stories across lands.</p>
-                        <!-- <p class="desc">Inspired by the historic journey of pietra dura craftsmanship from Florence to
-                            India, Karwaan celebrates the moment Italian stone-inlay traditions found new expression
-                            within Mughal artistry — a meeting of heritage, craftsmanship, and timeless design in every
-                            intricate inlay.</p> -->
                         <button type="button" class="collection-link collection-link-button"
                             id="karwaanEnquireBtn">Enquire
                             about Karwaan →</button>
@@ -1924,9 +1841,6 @@
                         <div class="collection-origin">Arabic · Mirage</div>
                         <h3>Miraj</h3>
                         <p class="meaning">Captivating, mysterious, almost unreal.</p>
-                        <!-- <p class="desc">Named after the idea of a mirage, Miraj reflects the rare beauty of onyx marble
-                            — known for its translucent depth and its ability to glow when touched by light, carrying a
-                            sense of illusion and movement within the stone itself.</p> -->
                         <button type="button" class="collection-link collection-link-button"
                             id="mirajEnquireBtn">Enquire
                             about Miraj →</button>
@@ -1934,32 +1848,6 @@
                 </div>
 
             </div>
-
-            <!-- CATALOGUING TEMPLATE -->
-            <!-- <div class="catalogue-block">
-      <div class="spec-card reveal">
-        <div class="spec-swatch">
-          <svg viewBox="0 0 400 250" xmlns="http://www.w3.org/2000/svg">
-            <rect width="400" height="250" fill="#efeae0"/>
-            <path d="M -20 70 C 90 30, 150 110, 260 70 S 420 40, 440 90" stroke="#c9c0ac" stroke-width="1.4" fill="none" opacity="0.6"/>
-            <path d="M -20 170 C 100 130, 170 200, 280 150 S 420 140, 440 180" stroke="#b1785f" stroke-width="1" fill="none" opacity="0.4"/>
-          </svg>
-        </div>
-        <div class="spec-row"><span class="k">Category</span><span class="v">Sculptural Object</span></div>
-        <div class="spec-row"><span class="k">Product Name</span><span class="v">Object name here</span></div>
-        <div class="spec-row"><span class="k">Marble Name</span><span class="v">e.g. Makrana White</span></div>
-        <div class="spec-row"><span class="k">Dimensions</span><span class="v">e.g. 18 × 18 × 4 cm</span></div>
-        <div class="spec-row"><span class="k">Finish / Polish</span><span class="v">e.g. Honed matte</span></div>
-        <div class="spec-row"><span class="k">Collection</span><span class="v">Divy / Karwaan / Miraj</span></div>
-        <div class="spec-note">Illustrative template — swap in real photography and copy for each catalogued piece.</div>
-      </div>
-      <div class="reveal">
-        <div class="kicker">Cataloguing Each Piece</div>
-        <h2 class="section-title">Every product, presented the same considered way.</h2>
-        <p style="margin-top:1.4rem; color:var(--ink-soft); max-width:52ch;">Each item in the Argiri catalogue is documented consistently — its category, name, imagery, dimensions, marble, and finish — alongside a short introduction that carries the same voice as the rest of the collection. This keeps the catalogue easy to browse and expand as new pieces are added.</p>
-        <p style="margin-top:1rem; color:var(--ink-soft); max-width:52ch;">Once product photography and details are ready, each entry can be dropped into this same card format, grouped under its collection.</p>
-      </div>
-    </div> -->
         </div>
     </section>
 
@@ -2021,61 +1909,46 @@
                 <div>
                     <h2 class="section-title">A closer look at the material.</h2>
                 </div>
-                <p>
-                    A curated pause between collections, where Divy, Karwaan, and Miraj are shown as they deserve to be
-                    seen: quietly, clearly, and with space around them.
-                </p>
             </div>
 
-            <div class="gallery-grid">
-                <figure class="gallery-card feature reveal">
-                    <img src="./images/Divy White Marble/KendraPedestal2.jpeg" alt="Divy marble pedestal in white marble">
-                    <figcaption class="gallery-card-content">
-                        <span class="gallery-pill">Divy</span>
-                    </figcaption>
-                </figure>
-
-                <figure class="gallery-card tall reveal">
-                    <img src="./images/Karwaan Collection/Jadai Mool Inlay Vase1(1).png" alt="Karwaan inlay vase">
-                    <figcaption class="gallery-card-content">
-                        <span class="gallery-pill">Karwaan</span>
-                    </figcaption>
-                </figure>
-
-                <figure class="gallery-card tall reveal">
-                    <img src="./images/Miraj Onyx Marble/MakarOnyx3.jpeg" alt="Miraj onyx marble object">
-                    <figcaption class="gallery-card-content">
-                        <span class="gallery-pill">Miraj</span>
-                    </figcaption>
-                </figure>
-
-                <figure class="gallery-card tall reveal">
-                    <img src="./images/Karwaan Collection/Airawat Inlay piece4(1).png" alt="Karwaan inlay piece">
-                    <figcaption class="gallery-card-content">
-                        <span class="gallery-pill">Karwaan</span>
-                    </figcaption>
-                </figure>
-
-                <figure class="gallery-card small reveal">
-                    <img src="./images/Divy White Marble/Shankh1.jpeg" alt="Divy shankh object in white marble">
-                    <figcaption class="gallery-card-content">
-                        <span class="gallery-pill">Divy</span>
-                    </figcaption>
-                </figure>
-
-                <figure class="gallery-card small reveal">
-                    <img src="./images/Miraj Onyx Marble/SuraGoblet2(1).png" alt="Miraj onyx goblet">
-                    <figcaption class="gallery-card-content">
-                        <span class="gallery-pill">Miraj</span>
-                    </figcaption>
-                </figure>
-
-                <figure class="gallery-card small reveal">
-                    <img src="./images/Karwaan Collection/Jadai Rakabi Inlay Plate2(1).png" alt="Karwaan inlay plate">
-                    <figcaption class="gallery-card-content">
-                        <span class="gallery-pill">Karwaan</span>
-                    </figcaption>
-                </figure>
+            <div class="gallery-marquee reveal" aria-hidden="false" style="margin-top:2.5rem;">
+                <div class="gallery-marquee-track">
+                    <div class="gallery-marquee-item"><img src="./images/Divy White Marble/KendraPedestal1.jpeg"
+                            alt="Divy Kendra Pedestal"><span>Divy</span></div>
+                    <div class="gallery-marquee-item"><img src="./images/Divy White Marble/UrliBowl1.jpeg"
+                            alt="Divy Urli Bowl"><span>Divy</span></div>
+                    <div class="gallery-marquee-item"><img src="./images/Karwaan Collection/Airawat Inlay piece2.png"
+                            alt="Karwaan Airawat"><span>Karwaan</span></div>
+                    <div class="gallery-marquee-item"><img src="./images/Karwaan Collection/Kawatch Inlay Coasters1.png"
+                            alt="Karwaan Kawatch"><span>Karwaan</span></div>
+                    <div class="gallery-marquee-item"><img src="./images/Miraj Onyx Marble/SebOnyx2.jpeg"
+                            alt="Miraj Seb Onyx"><span>Miraj</span></div>
+                    <div class="gallery-marquee-item"><img src="./images/Miraj Onyx Marble/VrittOnyxvase2.jpeg"
+                            alt="Miraj Vritt Vase"><span>Miraj</span></div>
+                    <div class="gallery-marquee-item"><img src="./images/Divy White Marble/MoolVase2.png"
+                            alt="Divy Mool Vase"><span>Divy</span></div>
+                    <div class="gallery-marquee-item"><img
+                            src="./images/Karwaan Collection/Varg Inlay Storage Box 1.png"
+                            alt="Karwaan Varg Box"><span>Karwaan</span></div>
+                    <!-- duplicate set for seamless loop -->
+                    <div class="gallery-marquee-item"><img src="./images/Divy White Marble/KendraPedestal1.jpeg"
+                            alt="Divy Kendra Pedestal"><span>Divy</span></div>
+                    <div class="gallery-marquee-item"><img src="./images/Divy White Marble/UrliBowl1.jpeg"
+                            alt="Divy Urli Bowl"><span>Divy</span></div>
+                    <div class="gallery-marquee-item"><img src="./images/Karwaan Collection/Airawat Inlay piece2.png"
+                            alt="Karwaan Airawat"><span>Karwaan</span></div>
+                    <div class="gallery-marquee-item"><img src="./images/Karwaan Collection/Kawatch Inlay Coasters1.png"
+                            alt="Karwaan Kawatch"><span>Karwaan</span></div>
+                    <div class="gallery-marquee-item"><img src="./images/Miraj Onyx Marble/SebOnyx2.jpeg"
+                            alt="Miraj Seb Onyx"><span>Miraj</span></div>
+                    <div class="gallery-marquee-item"><img src="./images/Miraj Onyx Marble/VrittOnyxvase2.jpeg"
+                            alt="Miraj Vritt Vase"><span>Miraj</span></div>
+                    <div class="gallery-marquee-item"><img src="./images/Divy White Marble/MoolVase2.png"
+                            alt="Divy Mool Vase"><span>Divy</span></div>
+                    <div class="gallery-marquee-item"><img
+                            src="./images/Karwaan Collection/Varg Inlay Storage Box 1.png"
+                            alt="Karwaan Varg Box"><span>Karwaan</span></div>
+                </div>
             </div>
         </div>
     </section>
@@ -2132,21 +2005,6 @@
                         than defined. We take our time, so that by the time it reaches you, it feels certain.</p>
                 </div>
             </div>
-
-            <!-- <div class="strip">
-                <div class="strip-cell reveal">
-                    <span class="tag">Sculptural Objects</span>
-                    <h4>Small pieces, full presence</h4>
-                </div>
-                <div class="strip-cell reveal">
-                    <span class="tag">Stone Slabs</span>
-                    <h4>Anchoring the rooms you live in</h4>
-                </div>
-                <div class="strip-cell reveal">
-                    <span class="tag">Bespoke</span>
-                    <h4>Chosen, turned, and offered with intention</h4>
-                </div>
-            </div> -->
         </div>
     </section>
 
@@ -2235,7 +2093,7 @@
                         minimalism — where every piece embodies softness, stillness, and understated luxury. Rooted in
                         simplicity yet rich in presence, it transforms everyday objects into serene works of art.
                     </p>
-                     <p>Tell us the piece you want, the size you need, or the room you’re imagining it for. We’ll reply
+                    <p>Tell us the piece you want, the size you need, or the room you’re imagining it for. We’ll reply
                         with availability and next steps.</p>
                     <div class="modal-actions">
                         <a class="modal-action primary"
@@ -2389,10 +2247,12 @@
             <div class="modal-grid">
                 <div class="modal-info">
                     <div class="eyebrow">Detail</div>
-                        <p class="desc">
-                            Inspired by the historic journey of pietra dura craftsmanship from Florence to India, Karwaan celebrates the moment Italian stone-inlay traditions found new expression within Mughal artistry — a meeting of heritage, craftsmanship, and timeless design in every intricate inlay.
-                        </p>
-                        <p>Tell us the piece you want, the size you need, or the room you're imagining it for. We'll reply
+                    <p class="desc">
+                        Inspired by the historic journey of pietra dura craftsmanship from Florence to India, Karwaan
+                        celebrates the moment Italian stone-inlay traditions found new expression within Mughal artistry
+                        — a meeting of heritage, craftsmanship, and timeless design in every intricate inlay.
+                    </p>
+                    <p>Tell us the piece you want, the size you need, or the room you're imagining it for. We'll reply
                         with availability and next steps.</p>
                     <div class="modal-actions">
                         <a class="modal-action primary"
@@ -2556,7 +2416,9 @@
                 <div class="modal-info">
                     <div class="eyebrow">Detail</div>
                     <p class="desc">
-                        Named after the idea of a mirage, Miraj reflects the rare beauty of onyx marble — known for its translucent depth and its ability to glow when touched by light, carrying a sense of illusion and movement within the stone itself.
+                        Named after the idea of a mirage, Miraj reflects the rare beauty of onyx marble — known for its
+                        translucent depth and its ability to glow when touched by light, carrying a sense of illusion
+                        and movement within the stone itself.
                     </p>
                     <p>Tell us the piece you want, the size you need, or the room you're imagining it for. We'll reply
                         with availability and next steps.</p>
